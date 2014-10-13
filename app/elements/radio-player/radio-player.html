@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../bower_components/core-icons/av-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -17,7 +18,7 @@
         <paper-item>Add</paper-item>
       </paper-menu-button>
       <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
-      <paper-icon-button icon="{{ playerIcon }}" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
+      <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
   </template>
   <script>
@@ -26,6 +27,10 @@
 
       /* jshint -W064 */
       Polymer({
+
+        observe: {
+          '$.player.paused': 'updateIcon'
+        },
         // define element prototype here
 
         playPause: function() {
@@ -34,14 +39,11 @@
           } else {
             this.$.player.pause();
           }
+          this.updateIcon();
         },
 
-        get playerIcon() {
-          console.log('playerIcon', this.$ && this.$.player.paused);
-          if(this.$ && this.$.player) {
-            return this.$.player.paused ? 'av:play-arrow' : 'av:pause';
-          }
-          return 'av:play-arrow';
+        updateIcon: function() {
+          this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
         }
       });
 
