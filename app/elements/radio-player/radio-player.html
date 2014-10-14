@@ -8,6 +8,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
+<link rel="import" href="../file-drop/file-drop.html">
+
 <polymer-element name="radio-player" attributes="url" url="http://swr-mp3-m-swr3.akacast.akamaistream.net/7/720/137136/v1/gnl.akacast.akamaistream.net/swr-mp3-m-swr3" >
   <template>
     <link rel="stylesheet" href="radio-player.css">
@@ -20,6 +22,10 @@
       <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
+
+    <file-drop flex on-file-drop="{{ addStation }}">
+      Drop Playlists here.
+    </file-drop>
   </template>
   <script>
     (function () {
@@ -44,6 +50,10 @@
 
         updateIcon: function() {
           this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
+        },
+
+        addStation: function(e, detail/*, target*/) {
+          console.log('addStation', detail);
         }
       });
 
