@@ -271,6 +271,12 @@ module.exports = function (grunt) {
           threshold: 80
         }
       }
+    },
+    'gh-pages': {
+      options: {
+        base: 'dist'
+      },
+      src: ['**']
     }
   });
 
@@ -319,4 +325,6 @@ module.exports = function (grunt) {
     // 'test'
     'build'
   ]);
+
+  grunt.registerTask('publish', ['build', 'gh-pages']);
 };
