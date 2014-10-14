@@ -1,0 +1,71 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-icons/av-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../file-drop/file-drop.html">
+
+<polymer-element name="radio-player" attributes="url">
+  <template>
+    <link rel="stylesheet" href="radio-player.css">
+    <audio id="player" src="{{ url }}"></audio>
+    <core-toolbar id="toolbar">
+      <paper-menu-button icon="menu" id="mainMenu">
+        <paper-item>Add</paper-item>
+        <paper-item>Add</paper-item>
+      </paper-menu-button>
+      <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
+      <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
+    </core-toolbar>
+
+    <file-drop flex on-file-drop="{{ addStation }}">
+      Drop <em>m3u</em> Playlists here.
+    </file-drop>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
+
+      /* jshint -W064 */
+      Polymer({
+
+        observe: {
+          '$.player.paused': 'updateIcon'
+        },
+
+        playPause: function() {
+          if(this.$.player.paused) {
+            this.$.player.play();
+          } else {
+            this.$.player.pause();
+          }
+          this.updateIcon();
+        },
+
+        updateIcon: function() {
+          this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
+        },
+
+        addStation: function(e, detail/*, target*/) {
+          var content = detail.body;
+          var match;
+          while((match = m3u.exec(content)) !== null) {
+            var entry = match[0],
+                name = match[1],
+                url = match[2];
+            this.url = url;
+            setTimeout(this.playPause.bind(this), 0);
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
