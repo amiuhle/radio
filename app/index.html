@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Polymer WebApp</title>
+  <title>Radio</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -21,7 +21,17 @@
 
 <body unresolved>
 
-  <radio-player></radio-player>
+  <radio-player>
+    <radio-station
+      src="http://www.swr3.de/-/id=2889256/property=normalIcon/3bf6ji/index.jpg"
+      url="http://swr-mp3-m-swr3.akacast.akamaistream.net/7/720/137136/v1/gnl.akacast.akamaistream.net/swr-mp3-m-swr3">
+      SWR 3
+    </radio-station>
+    <radio-station
+      src=""
+      url="http://swr-mp3-m-info.akacast.akamaistream.net/7/40/137140/v1/gnl.akacast.akamaistream.net/swr-mp3-m-info?mp3">
+      SWRinfo
+  </radio-player>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>

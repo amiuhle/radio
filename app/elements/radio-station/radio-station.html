@@ -1,14 +1,17 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-item/core-item.html">
 
-<polymer-element name="radio-station" attributes="">
+<polymer-element name="radio-station" extends="core-item" attributes="url">
   <template>
     <link rel="stylesheet" href="radio-station.css">
+    <shadow></shadow>
   </template>
   <script>
     (function () {
       'use strict';
-
+      /* jshint -W064 */
       Polymer({
+      /* jshint +W064 */
         // define element prototype here
       });
 

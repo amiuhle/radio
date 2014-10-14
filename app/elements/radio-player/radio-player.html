@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-list/core-list.html">
 
 <polymer-element name="radio-player" attributes="url" url="http://swr-mp3-m-swr3.akacast.akamaistream.net/7/720/137136/v1/gnl.akacast.akamaistream.net/swr-mp3-m-swr3" >
   <template>
@@ -20,6 +21,9 @@
       <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
+    <div flex>
+      <content></content>
+    </div>
   </template>
   <script>
     (function () {
@@ -27,6 +31,7 @@
 
       /* jshint -W064 */
       Polymer({
+        /* jshint -W064 */
 
         observe: {
           '$.player.paused': 'updateIcon'
