@@ -31,7 +31,7 @@
     (function () {
       'use strict';
 
-      var m3u = /#EXTINF:-?\d*,(.*)\n(http.*)/g;
+      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
 
       /* jshint -W064 */
       Polymer({
