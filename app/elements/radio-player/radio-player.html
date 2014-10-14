@@ -53,7 +53,14 @@
         },
 
         addStation: function(e, detail/*, target*/) {
-          console.log('addStation', detail);
+          var content = detail.body;
+          var m3u = /#EXTINF:-?\d*,(.*)\n(http.*)/g;
+          var match;
+          while((match = m3u.exec(content)) !== null) {
+            var name = match[1],
+                url = match[2];
+            console.log(name, url);
+          }
         }
       });
 
