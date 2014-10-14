@@ -31,13 +31,14 @@
     (function () {
       'use strict';
 
+      var m3u = /#EXTINF:-?\d*,(.*)\n(http.*)/g;
+
       /* jshint -W064 */
       Polymer({
 
         observe: {
           '$.player.paused': 'updateIcon'
         },
-        // define element prototype here
 
         playPause: function() {
           if(this.$.player.paused) {
@@ -54,12 +55,13 @@
 
         addStation: function(e, detail/*, target*/) {
           var content = detail.body;
-          var m3u = /#EXTINF:-?\d*,(.*)\n(http.*)/g;
           var match;
           while((match = m3u.exec(content)) !== null) {
-            var name = match[1],
+            var entry = match[0],
+                name = match[1],
                 url = match[2];
-            console.log(name, url);
+            this.url = url;
+            setTimeout(this.playPause.bind(this), 0);
           }
         }
       });
