@@ -271,6 +271,12 @@ module.exports = function (grunt) {
           threshold: 80
         }
       }
+    },
+    'gh-pages': {
+      options: {
+        base: 'dist'
+      },
+      src: ['**']
     }
   });
 
