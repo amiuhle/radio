@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="file-drop" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <content></content>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      var forEach = Array.prototype.forEach;
+
+      /* jshint -W064 */
+      Polymer({
+      /* jshint +W064 */
+        ready: function() {
+          this.addEventListener('dragover', this.onDragOver);
+          this.addEventListener('drop', this.onDrop);
+        },
+
+        onDragOver: function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        },
+
+        onDrop: function(e) {
+          e.preventDefault();
+          forEach.call(e.dataTransfer.files, function(file) {
+            var reader = new FileReader();
+            reader.addEventListener('load', function(e) {
+              if(e.loaded === e.total) {
+                this.fire('file-drop', {
+                  contentType: file.type,
+                  lastModified: file.lastModifiedDate,
+                  name: file.name,
+                  contentLength: file.size,
+                  body: reader.result
+                });
+              } else {
+                console.warn('not fully loaded', e.loaded, e.total);
+              }
+            }.bind(this));
+            reader.readAsText(file);
+          }.bind(this));
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>
