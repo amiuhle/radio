@@ -27,7 +27,7 @@
     <core-localstorage name="stations" value="{{ stations }}"></core-localstorage>
     <radio-player>
       <template repeat="{{ stations }}">
-        {{ name }}
+        <audio-source url="{{ url }}">{{ name }}</audio-source>
       </template>
     </radio-player>
     <file-drop flex on-file-drop="{{ addStation }}">
