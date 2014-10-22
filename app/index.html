@@ -16,12 +16,24 @@
   <script src="bower_components/platform/platform.js"></script>
 
   <!-- build:vulcanized elements/elements.vulcanized.html -->
+  <link rel="import" href="bower_components/core-localstorage/core-localstorage.html">
+
   <link rel="import" href="elements/elements.html">
   <!-- endbuild-->
 </head>
 
 <body unresolved>
-  <radio-player></radio-player>
+  <template id="radio" is="auto-binding" stations="{{ stations }}">
+    <core-localstorage name="stations" value="{{ stations }}"></core-localstorage>
+    <radio-player>
+      <template repeat="{{ stations }}">
+        <audio-source url="{{ url }}">{{ name }}</audio-source>
+      </template>
+    </radio-player>
+    <file-drop flex on-file-drop="{{ addStation }}">
+      Drop <em>m3u</em> Playlists here.
+    </file-drop>
+  </template>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
