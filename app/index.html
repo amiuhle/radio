@@ -23,7 +23,7 @@
 </head>
 
 <body unresolved>
-  <template is="auto-binding" stations="{{ stations }}">
+  <template id="radio" is="auto-binding" stations="{{ stations }}">
     <core-localstorage name="stations" value="{{ stations }}"></core-localstorage>
     <radio-player>
       <template repeat="{{ stations }}">

@@ -20,13 +20,11 @@
       <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
-    <content></content>
+    <content on-click="{{ selectStation }}"></content>
   </template>
   <script>
     (function () {
       'use strict';
-
-      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
 
       /* jshint -W064 */
       Polymer({
@@ -48,16 +46,9 @@
           this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
         },
 
-        addStation: function(e, detail/*, target*/) {
-          var content = detail.body;
-          var match;
-          while((match = m3u.exec(content)) !== null) {
-            var entry = match[0],
-                name = match[1],
-                url = match[2];
-            this.url = url;
-            setTimeout(this.playPause.bind(this), 0);
-          }
+        selectStation: function(e) {
+          this.url = e.target.url;
+          setTimeout(this.playPause.bind(this), 0);
         }
       });
 
