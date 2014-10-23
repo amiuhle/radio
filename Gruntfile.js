@@ -265,7 +265,7 @@ module.exports = function (grunt) {
       // Update `url` below to the public URL for your site
       mobile: {
         options: {
-          url: "https://developers.google.com/web/fundamentals/",
+          url: "http://amiuhle.github.com/radio",
           locale: "en_GB",
           strategy: "mobile",
           threshold: 80
