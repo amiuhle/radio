@@ -2237,7 +2237,9 @@ Example:
       <paper-input flex="" id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
-    <content on-click="{{ selectStation }}"></content>
+    <div on-click="{{ selectStation }}">
+      <content></content>
+    </div>
   </template>
   <script>(function(){"use strict";Polymer("radio-player",{observe:{"$.player.paused":"updateIcon"},playPause:function(){if(this.$.player.paused){this.$.player.play()}else{this.$.player.pause()}this.updateIcon()},updateIcon:function(){this.$.playPause.icon=this.$.player.paused?"av:play-arrow":"av:pause"},selectStation:function(e){this.url=e.target.url;setTimeout(this.playPause.bind(this),0)}})})();</script>
 </polymer-element>
