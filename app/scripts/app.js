@@ -4,7 +4,8 @@
   var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
 
   document.addEventListener('polymer-ready', function() {
-    var radio = document.querySelector('#radio');
+    var radio = document.querySelector('#radio'),
+      storage = radio.querySelector('core-localstorage');
     radio.addStation = function(e, detail/*, target*/) {
       console.log('addStation');
       var content = detail.body;
@@ -14,6 +15,7 @@
             name = match[1],
             url = match[2];
         this.url = url;
+        this.stations = this.stations || [];
         this.stations.push({
           name: name,
           url: url
