@@ -20,7 +20,9 @@
       <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
-    <content on-click="{{ selectStation }}"></content>
+    <div on-click="{{ selectStation }}">
+      <content></content>
+    </div>
   </template>
   <script>
     (function () {

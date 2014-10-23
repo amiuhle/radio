@@ -4,8 +4,7 @@
   var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
 
   document.addEventListener('polymer-ready', function() {
-    var radio = document.querySelector('#radio'),
-      storage = radio.querySelector('core-localstorage');
+    var radio = document.querySelector('#radio');
     radio.addStation = function(e, detail/*, target*/) {
       console.log('addStation');
       var content = detail.body;
