@@ -4,32 +4,47 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Polymer WebApp</title>
+  <title>Radio</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="bower_components/github-fork-ribbon-css/gh-fork-ribbon.css">
   <!-- endbuild-->
 
   <script src="bower_components/platform/platform.js"></script>
+
   <!-- build:vulcanized elements/elements.vulcanized.html -->
+  <link rel="import" href="bower_components/core-localstorage/core-localstorage.html">
+
   <link rel="import" href="elements/elements.html">
   <!-- endbuild-->
 </head>
 
 <body unresolved>
-
-  <div class="hero-unit">
-    <yo-greeting></yo-greeting>
-    <p>You now have</p>
-    <yo-list></yo-list>
-  </div>
+  <template id="radio" is="auto-binding" stations="{{ stations }}">
+    <core-localstorage name="stations" value="{{ stations }}"></core-localstorage>
+    <radio-player>
+      <template repeat="{{ stations }}">
+        <audio-source url="{{ url }}">{{ name }}</audio-source>
+      </template>
+    </radio-player>
+    <file-drop flex on-file-drop="{{ addStation }}">
+      Drop <em>m3u</em> Playlists here.
+    </file-drop>
+  </template>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
+
+  <div class="github-fork-ribbon-wrapper right-bottom">
+      <div class="github-fork-ribbon">
+          <a href="https://github.com/amiuhle/radio">Fork me on GitHub</a>
+      </div>
+  </div>
 </body>
 
 </html>
