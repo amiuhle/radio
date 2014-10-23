@@ -2225,20 +2225,9 @@ Example:
 </polymer-element>
 
 
-
-
-<polymer-element name="file-drop" attributes="" assetpath="file-drop/">
-  <template>
-    <style>:host{display:block}</style>
-    <content></content>
-  </template>
-  <script>(function(){"use strict";var forEach=Array.prototype.forEach;Polymer("file-drop",{ready:function(){this.addEventListener("dragover",this.onDragOver);this.addEventListener("drop",this.onDrop)},onDragOver:function(e){e.stopPropagation();e.preventDefault();return false},onDrop:function(e){e.preventDefault();forEach.call(e.dataTransfer.files,function(file){var reader=new FileReader;reader.addEventListener("load",function(e){if(e.loaded===e.total){this.fire("file-drop",{contentType:file.type,lastModified:file.lastModifiedDate,name:file.name,contentLength:file.size,body:reader.result})}else{console.warn("not fully loaded",e.loaded,e.total)}}.bind(this));reader.readAsText(file)}.bind(this))}})})();</script>
-</polymer-element>
-
-
 <polymer-element name="radio-player" attributes="url" assetpath="radio-player/">
   <template>
-    <style>:host{display:block}file-drop{margin-top:1em;padding:2em;border:1px dashed}</style>
+    <style>:host{display:block}</style>
     <audio id="player" src="{{ url }}"></audio>
     <core-toolbar id="toolbar">
       <paper-menu-button icon="menu" id="mainMenu">
@@ -2248,11 +2237,30 @@ Example:
       <paper-input flex="" id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
-
-    <file-drop flex="" on-file-drop="{{ addStation }}">
-      Drop <em>m3u</em> Playlists here.
-    </file-drop>
+    <content on-click="{{ selectStation }}"></content>
   </template>
-  <script>(function(){"use strict";var m3u=/(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;Polymer("radio-player",{observe:{"$.player.paused":"updateIcon"},playPause:function(){if(this.$.player.paused){this.$.player.play()}else{this.$.player.pause()}this.updateIcon()},updateIcon:function(){this.$.playPause.icon=this.$.player.paused?"av:play-arrow":"av:pause"},addStation:function(e,detail){var content=detail.body;var match;while((match=m3u.exec(content))!==null){var entry=match[0],name=match[1],url=match[2];this.url=url;setTimeout(this.playPause.bind(this),0)}}})})();</script>
+  <script>(function(){"use strict";Polymer("radio-player",{observe:{"$.player.paused":"updateIcon"},playPause:function(){if(this.$.player.paused){this.$.player.play()}else{this.$.player.pause()}this.updateIcon()},updateIcon:function(){this.$.playPause.icon=this.$.player.paused?"av:play-arrow":"av:pause"},selectStation:function(e){this.url=e.target.url;setTimeout(this.playPause.bind(this),0)}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div>
+</div><div hidden>
+
+
+<polymer-element name="audio-source" attributes="name url" assetpath="audio-source/">
+  <template>
+    <style>:host{position:relative;display:inline-block;width:100px;height:100px;vertical-align:center;background-color:#fff;box-shadow:0 12px 15px 0 rgba(0,0,0,.24)}</style>
+    <span class="name" flex="" vertical="">
+      <content></content>
+    </span>
+    <paper-ripple fit=""></paper-ripple>
+  </template>
+  <script>Polymer("audio-source",{});</script>
+</polymer-element>
+</div><div hidden>
+
+<polymer-element name="file-drop" attributes="" assetpath="file-drop/">
+  <template>
+    <style>:host{display:block}</style>
+    <content></content>
+  </template>
+  <script>(function(){"use strict";var forEach=Array.prototype.forEach;Polymer("file-drop",{ready:function(){this.addEventListener("dragover",this.onDragOver);this.addEventListener("drop",this.onDrop)},onDragOver:function(e){e.stopPropagation();e.preventDefault();return false},onDrop:function(e){e.preventDefault();forEach.call(e.dataTransfer.files,function(file){var reader=new FileReader;reader.addEventListener("load",function(e){if(e.loaded===e.total){this.fire("file-drop",{contentType:file.type,lastModified:file.lastModifiedDate,name:file.name,contentLength:file.size,body:reader.result})}else{console.warn("not fully loaded",e.loaded,e.total)}}.bind(this));reader.readAsText(file)}.bind(this))}})})();</script>
+</polymer-element>
+</div>

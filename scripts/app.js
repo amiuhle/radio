@@ -1,1 +1,1 @@
-!function(a){"use strict";a.addEventListener("polymer-ready",function(){console.log("Polymer is ready to rock!")})}(wrap(document));
+!function(a){"use strict";var b=/(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;a.addEventListener("polymer-ready",function(){var c=a.querySelector("#radio");c.addStation=function(a,d){console.log("addStation");for(var e,f=d.body;null!==(e=b.exec(f));){var g=e[1],h=e[2];this.url=h,c.stations=c.stations||[],this.stations.push({name:g,url:h})}}})}(wrap(document));
