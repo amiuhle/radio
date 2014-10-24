@@ -4,11 +4,11 @@
   <template>
     <link rel="stylesheet" href="radio-app.css">
     <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
-    <radio-player>
+    <audio-player>
       <template repeat="{{ stations }}">
         <audio-source url="{{ url }}">{{ name }}</audio-source>
       </template>
-    </radio-player>
+    </audio-player>
     <file-drop flex on-file-drop="{{ addStation }}">
       Drop <em>m3u</em> Playlists here.
     </file-drop>
