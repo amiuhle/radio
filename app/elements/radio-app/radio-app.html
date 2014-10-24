@@ -3,13 +3,43 @@
 <polymer-element name="radio-app" attributes="">
   <template>
     <link rel="stylesheet" href="radio-app.css">
+    <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
+    <radio-player>
+      <template repeat="{{ stations }}">
+        <audio-source url="{{ url }}">{{ name }}</audio-source>
+      </template>
+    </radio-player>
+    <file-drop flex on-file-drop="{{ addStation }}">
+      Drop <em>m3u</em> Playlists here.
+    </file-drop>
   </template>
   <script>
     (function () {
       'use strict';
 
+      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
+
+      /* jshint -W064 */
       Polymer({
-        // define element prototype here
+      /* jshint +W064 */
+
+      addStation: function(e, detail/*, target*/) {
+          var content = detail.body;
+          var match;
+          while((match = m3u.exec(content)) !== null) {
+            var /*entry = match[0],*/
+                name = match[1],
+                url = match[2];
+            this.url = url;
+            this.stations = this.stations || [];
+            this.stations.push({
+              name: name,
+              url: url
+            });
+            this.$.storage.save();
+          }
+        }
+
       });
 
     })();
