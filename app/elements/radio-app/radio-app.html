@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
 <link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../../bower_components/core-selector/core-selector.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 
 <polymer-element name="radio-app" attributes="" vertical layout>
@@ -13,10 +15,12 @@
           <paper-item>Add</paper-item>
           <paper-item>Add</paper-item>
         </paper-menu-button>
-        <audio-player flex layout horizontal id="player">
+        <audio-player flex layout horizontal id="player" volume="{{ volume / 100}}">
         </audio-player>
-        <div class="bottom fit">
-          
+        <div class="bottom"  layout horizontal fit>
+          <paper-icon-button icon="av:volume-up" self-center></paper-icon-button>
+          <paper-slider id="volume" value="{{ volume }}" self-center>
+          </paper-slider>
         </div>
       </core-toolbar>
 

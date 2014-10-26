@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
 
-<polymer-element name="audio-player" attributes="url name volume elapsed">
+<polymer-element name="audio-player" attributes="url name volume muted elapsed" volume="0.5">
   <template>
     <link rel="stylesheet" href="audio-player.css">
     <audio id="player" src="{{ url }}"></audio>
@@ -26,9 +26,17 @@
       /* jshint -W064 */
       Polymer({
       /* jshint +W064 */
+        muted: false,
 
         observe: {
           '$.player.paused': 'updateIcon'
+        },
+
+        get volume() {
+          return this.$ && this.$.player && this.$.player.volume;
+        },
+        set volume(value) {
+          this.$.player.volume = value;
         },
 
         playPause: function() {
@@ -45,6 +53,7 @@
         },
 
         setStation: function(station) {
+          debugger;
           this.url = station.url;
           this.name = station.name;
           setTimeout(this.playPause.bind(this), 0);
