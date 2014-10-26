@@ -1,17 +1,21 @@
 <link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="../../bower_components/core-selector/core-selector.html">
 
 <polymer-element name="radio-app" attributes="">
   <template>
     <link rel="stylesheet" href="radio-app.css">
     <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
-    <audio-player>
-      <template repeat="{{ stations }}">
-        <audio-source url="{{ url }}">{{ name }}</audio-source>
-      </template>
-    </audio-player>
+    <audio-player></audio-player>
     <file-drop flex on-file-drop="{{ addStation }}">
       Drop <em>m3u</em> Playlists here.
     </file-drop>
+    <core-selector selected="{{ selected }}" layout horizontal>
+      <template repeat="{{ station in stations }}">
+        <audio-source url="{{ station.url }}" name="{{ station.name }}">
+          <paper-ripple fit></paper-ripple>
+        </audio-source>
+      </template>
+    </core-selector>
   </template>
   <script>
     (function () {

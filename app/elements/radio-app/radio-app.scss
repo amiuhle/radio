@@ -2,6 +2,26 @@
   display: block;
 }
 
+core-selector {
+  margin: 1em 0;
+}
+
+audio-source {
+  width: 100px;
+  height: 100px;
+  vertical-align: center;
+  background-color: #fff;
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+  margin: 5px;
+
+  position: relative;
+
+  & > paper-ripple {
+    overflow: hidden;
+    // color: green;
+  }
+}
+
 file-drop {
   margin-top: 1em;
   padding: 2em;
