@@ -20,9 +20,6 @@
       <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
       <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
     </core-toolbar>
-    <div on-click="{{ selectStation }}">
-      <content></content>
-    </div>
   </template>
   <script>
     (function () {
@@ -49,8 +46,9 @@
           this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
         },
 
-        selectStation: function(e) {
-          this.url = e.target.url;
+        setStation: function(station) {
+          console.log('setStation', station);
+          this.url = station.url;
           setTimeout(this.playPause.bind(this), 0);
         }
       });

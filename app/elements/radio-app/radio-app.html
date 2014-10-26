@@ -5,11 +5,12 @@
   <template>
     <link rel="stylesheet" href="radio-app.css">
     <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
-    <audio-player></audio-player>
+    <audio-player id="player">
+    </audio-player>
     <file-drop flex on-file-drop="{{ addStation }}">
       Drop <em>m3u</em> Playlists here.
     </file-drop>
-    <core-selector selected="{{ selected }}" layout horizontal>
+    <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
       <template repeat="{{ station in stations }}">
         <audio-source url="{{ station.url }}" name="{{ station.name }}">
           <paper-ripple fit></paper-ripple>
@@ -42,6 +43,10 @@
             });
             this.$.storage.save();
           }
+        },
+
+        playStation: function(e, detail) {
+          this.$.player.setStation(detail.item);
         }
 
       });
