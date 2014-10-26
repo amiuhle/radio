@@ -7,19 +7,17 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
 
-<polymer-element name="audio-player" attributes="url">
+<polymer-element name="audio-player" attributes="url name volume elapsed">
   <template>
     <link rel="stylesheet" href="audio-player.css">
     <audio id="player" src="{{ url }}"></audio>
-    <core-toolbar id="toolbar">
-      <paper-menu-button icon="menu" id="mainMenu">
-        <paper-item>Add</paper-item>
-        <paper-item>Add</paper-item>
-      </paper-menu-button>
-      <paper-input flex id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
-      <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
-    </core-toolbar>
+    <core-tooltip flex self-center label="{{ url }}">
+      {{ name }}
+    </core-tooltip>
+    <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}">
+    </paper-icon-button>
   </template>
   <script>
     (function () {
@@ -47,8 +45,8 @@
         },
 
         setStation: function(station) {
-          console.log('setStation', station);
           this.url = station.url;
+          this.name = station.name;
           setTimeout(this.playPause.bind(this), 0);
         }
       });

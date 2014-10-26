@@ -1,22 +1,36 @@
 <link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../../bower_components/core-selector/core-selector.html">
 
-<polymer-element name="radio-app" attributes="">
+
+<polymer-element name="radio-app" attributes="" vertical layout>
   <template>
     <link rel="stylesheet" href="radio-app.css">
     <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
-    <audio-player id="player">
-    </audio-player>
-    <file-drop flex on-file-drop="{{ addStation }}">
-      Drop <em>m3u</em> Playlists here.
-    </file-drop>
-    <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
-      <template repeat="{{ station in stations }}">
-        <audio-source url="{{ station.url }}" name="{{ station.name }}">
-          <paper-ripple fit></paper-ripple>
-        </audio-source>
-      </template>
-    </core-selector>
+    <core-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
+      <core-toolbar id="toolbar">
+        <paper-menu-button icon="menu" id="mainMenu">
+          <paper-item>Add</paper-item>
+          <paper-item>Add</paper-item>
+        </paper-menu-button>
+        <audio-player flex layout horizontal id="player">
+        </audio-player>
+        <div class="bottom fit">
+          
+        </div>
+      </core-toolbar>
+
+      <file-drop flex on-file-drop="{{ addStation }}">
+        Drop <em>m3u</em> Playlists here.
+      </file-drop>
+      <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
+        <template repeat="{{ station in stations }}">
+          <audio-source url="{{ station.url }}" name="{{ station.name }}">
+            <paper-ripple fit></paper-ripple>
+          </audio-source>
+        </template>
+      </core-selector>
+    </core-header-panel>
   </template>
   <script>
     (function () {
