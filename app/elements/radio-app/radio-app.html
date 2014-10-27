@@ -1,0 +1,94 @@
+<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="../../bower_components/core-selector/core-selector.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+
+<polymer-element name="radio-app" attributes="" vertical layout>
+  <template>
+    <link rel="stylesheet" href="radio-app.css">
+    <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
+    <core-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
+      <core-toolbar id="toolbar">
+        <paper-menu-button icon="menu" id="mainMenu">
+          <paper-item>Add</paper-item>
+          <paper-item>Add</paper-item>
+        </paper-menu-button>
+        <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
+        </audio-player>
+        <div class="bottom"  layout horizontal fit>
+          <paper-icon-button id="volumeIcon" icon="av:volume-up" on-click="{{ toggleMuted }}" self-center></paper-icon-button>
+          <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" pin self-center>
+          </paper-slider>
+        </div>
+      </core-toolbar>
+
+      <file-drop flex on-file-drop="{{ addStation }}">
+        Drop <em>m3u</em> Playlists here.
+      </file-drop>
+      <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
+        <template repeat="{{ station in stations }}">
+          <audio-source url="{{ station.url }}" name="{{ station.name }}">
+            <paper-ripple fit></paper-ripple>
+          </audio-source>
+        </template>
+      </core-selector>
+    </core-header-panel>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
+
+      /* jshint -W064 */
+      Polymer({
+      /* jshint +W064 */
+
+      addStation: function(e, detail/*, target*/) {
+          var content = detail.body;
+          var match;
+          while((match = m3u.exec(content)) !== null) {
+            var /*entry = match[0],*/
+                name = match[1],
+                url = match[2];
+            this.url = url;
+            this.stations = this.stations || [];
+            this.stations.push({
+              name: name,
+              url: url
+            });
+            this.$.storage.save();
+          }
+        },
+
+        observe: {
+          muted: 'updateVolumeIcon',
+          volume: 'updateVolumeIcon'
+        },
+
+        playStation: function(e, detail) {
+          this.$.player.setStation(detail.item);
+          // this.$.player.appendChild(detail.item.cloneNode());
+        },
+
+        toggleMuted: function() {
+          this.muted = !this.muted;
+        },
+
+        updateVolumeIcon: function() {
+          if(this.muted) {
+            this.$.volumeIcon.icon = 'av:volume-mute';
+          } else if(this.volume < 0.5) {
+            this.$.volumeIcon.icon = 'av:volume-down';
+          } else {
+            this.$.volumeIcon.icon = 'av:volume-up';
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>
