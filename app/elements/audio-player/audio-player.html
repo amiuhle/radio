@@ -12,7 +12,7 @@
 <polymer-element name="audio-player" attributes="url name volume muted elapsed">
   <template>
     <link rel="stylesheet" href="audio-player.css">
-    <audio id="player" src="{{ url }}" volume="0.5"></audio>
+    <audio id="player" src="{{ url }}"></audio>
     <core-tooltip flex self-center label="{{ url }}">
       {{ name }}
     </core-tooltip>
@@ -26,35 +26,47 @@
       /* jshint -W064 */
       Polymer({
       /* jshint +W064 */
-        get muted() {
-          return this.$ && this.$.player.muted || false;
-        },
 
-        set muted(value) {
-          this.$.player.muted = true;
-        },
-
-        volume: 10,
-        volumeChanged: function(value) {
-          // value = parseInt(value, 10) / 10;
-          // console.log(value);
-          this.$.player.volume = value;
-        },
+        // ready: function() {
+        //   console.log('ready', arguments);
+        //   this.onMutation(this, this.childrenUpdated);
+        // },
+        //
+        // childrenUpdated: function(observer, mutations) {
+        //   console.log('childrenUpdated', arguments);
+        //   mutations.forEach(function(record) {
+        //     debugger;
+        //     console.log(record.addedNodes);
+        //   }.bind(this));
+        // },
 
         ready: function() {
+          // var observer = new MutationObserver(function(mutations) {
+          //   console.log(mutations);
+          // }.bind(this));
+          // observer.observe(this.$.player, { attributes: true });
+          this.muted = this.$.player.muted;
+          this.volume = this.$.player.volume;
         },
 
-        observe: {
-          '$.player.paused': 'updateIcon',
-          '$.player.volume': 'volume'
+        volumeChanged: function(oldValue, newValue) {
+          this.$.player.volume = newValue;
         },
 
-        // get volume() {
-        //   return (this.$ && this.$.player && this.$.player.volume) || 0.5;
+        //TODO: find out why this doens't work, that'd be neat!
+        // observe: {
+        //   '$.player.paused': 'updateIcon',
+        //   '$.player.volume': 'updateVolume'
         // },
-        // set volume(value) {
-        //   this.$.player.volume = value;
-        // },
+
+        updateIcon: function() {
+          console.log('updateIcon');
+          this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
+        },
+
+        updateVolume: function() {
+          console.log('updateVolume', arguments);
+        },
 
         playPause: function() {
           if(this.$.player.paused) {
@@ -63,10 +75,6 @@
             this.$.player.pause();
           }
           this.updateIcon();
-        },
-
-        updateIcon: function() {
-          this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
         },
 
         setStation: function(station) {

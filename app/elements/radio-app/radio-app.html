@@ -19,7 +19,7 @@
         </audio-player>
         <div class="bottom"  layout horizontal fit>
           <paper-icon-button icon="av:volume-up" self-center></paper-icon-button>
-          <paper-slider id="volume" ratio="{{ volume }}" min="0" max="100" self-center>
+          <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" self-center>
           </paper-slider>
         </div>
       </core-toolbar>
@@ -65,6 +65,7 @@
 
         playStation: function(e, detail) {
           this.$.player.setStation(detail.item);
+          // this.$.player.appendChild(detail.item.cloneNode());
         }
 
       });
