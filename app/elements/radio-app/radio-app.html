@@ -13,6 +13,7 @@
       <core-toolbar id="toolbar">
         <paper-menu-button icon="menu" id="mainMenu">
           <paper-item icon="file-download" on-click="{{ fileDownload }}" download="Playlist.m3u">Download Playlist</paper-item>
+          <paper-item icon="clear" on-click="{{ clearPlaylist }}" download="Playlist.m3u">Clear Playlist</paper-item>
         </paper-menu-button>
         <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
         </audio-player>
@@ -99,8 +100,13 @@
           a.href = 'data:' + m3uType + ';charset=utf-8,' + encodeURIComponent(file);
           a.textContent = 'Download playlist';
           a.dataset.downloadurl = [m3uType, a.download, a.href].join(':');
+          // a.draggable = true; TODO: create link on playlist edit, add directly to menu?
 
           return a.click();
+        },
+
+        clearPlaylist: function() {
+          this.stations = [];
         }
 
       });
