@@ -15,11 +15,11 @@
           <paper-item>Add</paper-item>
           <paper-item>Add</paper-item>
         </paper-menu-button>
-        <audio-player flex layout horizontal id="player" volume="{{ volume }}">
+        <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
         </audio-player>
         <div class="bottom"  layout horizontal fit>
-          <paper-icon-button icon="av:volume-up" self-center></paper-icon-button>
-          <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" self-center>
+          <paper-icon-button id="volumeIcon" icon="av:volume-up" on-click="{{ toggleMuted }}" self-center></paper-icon-button>
+          <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" pin self-center>
           </paper-slider>
         </div>
       </core-toolbar>
@@ -63,9 +63,28 @@
           }
         },
 
+        observe: {
+          muted: 'updateVolumeIcon',
+          volume: 'updateVolumeIcon'
+        },
+
         playStation: function(e, detail) {
           this.$.player.setStation(detail.item);
           // this.$.player.appendChild(detail.item.cloneNode());
+        },
+
+        toggleMuted: function() {
+          this.muted = !this.muted;
+        },
+
+        updateVolumeIcon: function() {
+          if(this.muted) {
+            this.$.volumeIcon.icon = 'av:volume-mute';
+          } else if(this.volume < 0.5) {
+            this.$.volumeIcon.icon = 'av:volume-down';
+          } else {
+            this.$.volumeIcon.icon = 'av:volume-up';
+          }
         }
 
       });

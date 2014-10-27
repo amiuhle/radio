@@ -53,6 +53,10 @@
           this.$.player.volume = newValue;
         },
 
+        mutedChanged: function(oldValue, newValue) {
+          this.$.player.muted = newValue;
+        },
+
         //TODO: find out why this doens't work, that'd be neat!
         // observe: {
         //   '$.player.paused': 'updateIcon',
@@ -60,7 +64,6 @@
         // },
 
         updateIcon: function() {
-          console.log('updateIcon');
           this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
         },
 
