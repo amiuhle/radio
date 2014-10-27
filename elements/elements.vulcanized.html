@@ -8,32 +8,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <!--
-Element access to localStorage.  The "name" property
-is the key to the data ("value" property) stored in localStorage.
-
-`core-localstorage` automatically saves the value to localStorage when
-value is changed.  Note that if value is an object auto-save will be
-triggered only when value is a different instance.
-
-    <core-localstorage name="my-app-storage" value="{{value}}"></core-localstorage>
-
-@group Polymer Core Elements
-@element core-localstorage
-@blurb Element access to localStorage.
-@url github.io
-@categories Data
--->
-
-<!--
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -45,11 +19,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script src="../bower_components/polymer/polymer.js"></script>
 <!--<link rel="import" href="../polymer-dev/polymer.html">--> 
-
-<polymer-element name="core-localstorage" attributes="name value useRaw autoSaveDisabled" hidden assetpath="../bower_components/core-localstorage/">
-<script>Polymer("core-localstorage",{name:"",value:null,useRaw:false,autoSaveDisabled:false,attached:function(){this.async("load")},valueChanged:function(){if(this.loaded&&!this.autoSaveDisabled){this.save()}},load:function(){var v=localStorage.getItem(this.name);if(this.useRaw){this.value=v}else{if(v===null){if(this.value!=null){this.save()}}else{try{v=JSON.parse(v)}catch(x){}this.value=v}}this.loaded=true;this.asyncFire("core-localstorage-load")},save:function(){var v=this.useRaw?this.value:JSON.stringify(this.value);localStorage.setItem(this.name,v)}});</script>
-</polymer-element>
-</div><div hidden>
 
 <polymer-element name="yo-list" attributes="" assetpath="yo-list/">
   <template>
@@ -2255,35 +2224,120 @@ Example:
   <script>Polymer("paper-item",{publish:{label:"",iconSrc:"",icon:""},eventDelegates:{down:"downAction",up:"upAction"},downAction:function(e){this.$.ripple.downAction(e)},upAction:function(e){this.$.ripple.upAction(e)}});</script>
 </polymer-element>
 
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
 
-<polymer-element name="radio-player" attributes="url" assetpath="radio-player/">
+<!--
+The `core-tooltip` element creates a hover tooltip centered for the content
+it contains. It can be positioned on the top|bottom|left|right of content using
+the `position` attribute.
+
+To include HTML in the tooltip, include the `tip` attribute on the relevant
+content.
+
+<b>Example</b>:
+
+    <core-tooltip label="I'm a tooltip">
+      <span>Hover over me.</span>
+    </core-tooltip>
+
+<b>Example</b> - positioning the tooltip to the right:
+
+    <core-tooltip label="I'm a tooltip to the right" position="right">
+      <core-icon-button icon="drawer"></core-icon-button>
+    </core-tooltip>
+
+<b>Example</b> - no arrow and showing by default:
+
+    <core-tooltip label="Tooltip with no arrow and always on" noarrow show>
+      <img src="image.jpg">
+    </core-tooltip>
+
+<b>Example</b> - disable the tooltip.
+
+    <core-tooltip label="Disabled label never shows" disabled>
+      ...
+    </core-tooltip>
+
+<b>Example</b> - rich tooltip using the `tip` attribute:
+
+    <core-tooltip>
+      <div>Example of a rich information tooltip</div>
+      <div tip>
+        <img src="profile.jpg">Foo <b>Bar</b> - <a href="#">@baz</a>
+      </div>
+    </core-tooltip>
+
+By default, the `tip` attribute specifies the HTML content for a rich tooltip.
+You can customize this attribute with the `tipAttribute` attribute:
+
+    <core-tooltip tipAttribute="htmltooltip">
+      <div>Example of a rich information tooltip</div>
+      <div htmltooltip>
+        ...
+      </div>
+    </core-tooltip>
+
+@group Polymer Core Elements
+@element core-tooltip
+@extends paper-focusable
+@homepage http://www.polymer-project.org/components/core-tooltip/index.html
+-->
+
+
+
+
+<!-- TODO: would be nice to inherit from label to get .htmlFor, and .control,
+           but the latter is readonly. -->
+<!-- TODO: support off center arrows. -->
+<!-- TODO: detect mobile and apply the .large class, instead of manual
+           control. -->
+<!-- TODO: possibly reuse core-overlay. -->
+<polymer-element name="core-tooltip" extends="paper-focusable" attributes="noarrow position label show tipAttribute" role="tooltip" assetpath="../bower_components/core-tooltip/">
+<template>
+
+  <style>:host{box-sizing:border-box;position:relative;display:inline-block;outline:0}:host(:hover:not([disabled])) .core-tooltip{visibility:visible!important}:host([focused]) .core-tooltip{visibility:visible!important}.core-tooltip:not(.show){visibility:hidden}.core-tooltip{position:absolute;font-size:10px;font-family:sans-serif;padding:8px;color:#fff;background-color:rgba(0,0,0,.8);box-sizing:border-box;border-radius:3px;white-space:nowrap;line-height:6px;z-index:1002;-webkit-user-select:none;user-select:none}:host([large]) .core-tooltip{line-height:14px;font-size:14px;padding:16px}.core-tooltip.noarrow::after{display:none}.core-tooltip::after{position:absolute;border:solid transparent;content:'';height:0;width:0;border-width:4px}.top{margin-bottom:10px;bottom:100%}.right{margin-left:10px;left:100%}.bottom{top:100%;margin-top:10px}.left{margin-right:10px;right:100%}.core-tooltip.bottom::after{bottom:100%;left:calc(50% - 4px);border-bottom-color:rgba(0,0,0,.8)}.core-tooltip.left::after{left:100%;top:calc(50% - 4px);border-left-color:rgba(0,0,0,.8)}.core-tooltip.top::after{top:100%;left:calc(50% - 4px);border-top-color:rgba(0,0,0,.8)}.core-tooltip.right::after{right:100%;top:calc(50% - 4px);border-right-color:rgba(0,0,0,.8)}</style>
+  <div id="tooltip" hidden?="{{!hasTooltipContent}}" class="core-tooltip {{position}} {{ {noarrow: noarrow, show: show &amp;&amp; !disabled} | tokenList}}">
+    <content id="c" select="[{{tipAttribute}}]">{{label}}</content>
+  </div>
+
+  <content></content>
+
+</template>
+<script>Polymer("core-tooltip",{label:null,computed:{hasTooltipContent:"label || !!tipElement"},publish:{show:{value:false,reflect:true},position:{value:"bottom",reflect:true},noarrow:{value:false,reflect:true}},tipAttribute:"tip",attached:function(){this.updatedChildren()},updatedChildren:function(){this.tipElement=null;for(var i=0,el;el=this.$.c.getDistributedNodes()[i];++i){if(el.hasAttribute&&el.hasAttribute("tip")){this.tipElement=el;break}}this.job("positionJob",this.setPosition);this.onMutation(this,this.updatedChildren)},labelChanged:function(oldVal,newVal){this.job("positionJob",this.setPosition)},positionChanged:function(oldVal,newVal){this.job("positionJob",this.setPosition)},setPosition:function(){var controlWidth=this.clientWidth;var controlHeight=this.clientHeight;var toolTipWidth=this.$.tooltip.clientWidth;var toolTipHeight=this.$.tooltip.clientHeight;switch(this.position){case"top":case"bottom":this.$.tooltip.style.left=(controlWidth-toolTipWidth)/2+"px";this.$.tooltip.style.top=null;break;case"left":case"right":this.$.tooltip.style.left=null;this.$.tooltip.style.top=(controlHeight-toolTipHeight)/2+"px";break}}});</script>
+</polymer-element>
+
+
+<polymer-element name="audio-player" attributes="url name volume muted elapsed" assetpath="audio-player/">
   <template>
     <style>:host{display:block}</style>
     <audio id="player" src="{{ url }}"></audio>
-    <core-toolbar id="toolbar">
-      <paper-menu-button icon="menu" id="mainMenu">
-        <paper-item>Add</paper-item>
-        <paper-item>Add</paper-item>
-      </paper-menu-button>
-      <paper-input flex="" id="url" name="url" type="url" label="URL" value="{{ url }}"></paper-input>
-      <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}"></paper-icon-button>
-    </core-toolbar>
-    <div on-click="{{ selectStation }}">
-      <content></content>
-    </div>
+    <core-tooltip flex="" self-center="" label="{{ url }}">
+      {{ name }}
+    </core-tooltip>
+    <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}">
+    </paper-icon-button>
   </template>
-  <script>(function(){"use strict";Polymer("radio-player",{observe:{"$.player.paused":"updateIcon"},playPause:function(){if(this.$.player.paused){this.$.player.play()}else{this.$.player.pause()}this.updateIcon()},updateIcon:function(){this.$.playPause.icon=this.$.player.paused?"av:play-arrow":"av:pause"},selectStation:function(e){this.url=e.target.url;setTimeout(this.playPause.bind(this),0)}})})();</script>
+  <script>(function(){"use strict";Polymer("audio-player",{ready:function(){this.muted=this.$.player.muted;this.volume=this.$.player.volume},volumeChanged:function(oldValue,newValue){this.$.player.volume=newValue},mutedChanged:function(oldValue,newValue){this.$.player.muted=newValue},updateIcon:function(){this.$.playPause.icon=this.$.player.paused?"av:play-arrow":"av:pause"},updateVolume:function(){console.log("updateVolume",arguments)},playPause:function(){if(this.$.player.paused){this.$.player.play()}else{this.$.player.pause()}this.updateIcon()},setStation:function(station){this.url=station.url;this.name=station.name;setTimeout(this.playPause.bind(this),0)}})})();</script>
 </polymer-element>
 </div><div hidden>
 
 
 <polymer-element name="audio-source" attributes="name url" assetpath="audio-source/">
   <template>
-    <style>:host{position:relative;display:inline-block;width:100px;height:100px;vertical-align:center;background-color:#fff;box-shadow:0 12px 15px 0 rgba(0,0,0,.24)}</style>
-    <span class="name" flex="" vertical="">
-      <content></content>
-    </span>
-    <paper-ripple fit=""></paper-ripple>
+    <style>:host{display:block}.name{text-align:center;width:100%}</style>
+    <div layout="" horizontal="" fit="">
+      <div class="name" self-center="">
+        {{ name }}
+      </div>
+    </div>
+    <content></content>
   </template>
   <script>Polymer("audio-source",{});</script>
 </polymer-element>
@@ -2295,5 +2349,460 @@ Example:
     <content></content>
   </template>
   <script>(function(){"use strict";var forEach=Array.prototype.forEach;Polymer("file-drop",{ready:function(){this.addEventListener("dragover",this.onDragOver);this.addEventListener("drop",this.onDrop)},onDragOver:function(e){e.stopPropagation();e.preventDefault();return false},onDrop:function(e){e.preventDefault();forEach.call(e.dataTransfer.files,function(file){var reader=new FileReader;reader.addEventListener("load",function(e){if(e.loaded===e.total){this.fire("file-drop",{contentType:file.type,lastModified:file.lastModifiedDate,name:file.name,contentLength:file.size,body:reader.result})}else{console.warn("not fully loaded",e.loaded,e.total)}}.bind(this));reader.readAsText(file)}.bind(this))}})})();</script>
+</polymer-element>
+</div><div hidden><!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+Element access to localStorage.  The "name" property
+is the key to the data ("value" property) stored in localStorage.
+
+`core-localstorage` automatically saves the value to localStorage when
+value is changed.  Note that if value is an object auto-save will be
+triggered only when value is a different instance.
+
+    <core-localstorage name="my-app-storage" value="{{value}}"></core-localstorage>
+
+@group Polymer Core Elements
+@element core-localstorage
+@blurb Element access to localStorage.
+@url github.io
+@categories Data
+-->
+
+
+
+<polymer-element name="core-localstorage" attributes="name value useRaw autoSaveDisabled" hidden assetpath="../bower_components/core-localstorage/">
+<script>Polymer("core-localstorage",{name:"",value:null,useRaw:false,autoSaveDisabled:false,attached:function(){this.async("load")},valueChanged:function(){if(this.loaded&&!this.autoSaveDisabled){this.save()}},load:function(){var v=localStorage.getItem(this.name);if(this.useRaw){this.value=v}else{if(v===null){if(this.value!=null){this.save()}}else{try{v=JSON.parse(v)}catch(x){}this.value=v}}this.loaded=true;this.asyncFire("core-localstorage-load")},save:function(){var v=this.useRaw?this.value:JSON.stringify(this.value);localStorage.setItem(this.name,v)}});</script>
+</polymer-element>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`core-header-panel` contains a header section and a content panel section.
+
+__Important:__ The `core-header-panel` will not display if its parent does not have a height.
+
+Using [layout attributes](http://www.polymer-project.org/docs/polymer/layout-attrs.html), you can easily make the `core-header-panel` fill the screen
+
+    <body fullbleed layout vertical>
+      <core-header-panel flex>
+        <core-toolbar>
+          <div>Hello World!</div>
+        </core-toolbar>
+      </core-header-panel>
+    </body>
+
+or, if you would prefer to do it in CSS, just give `html`, `body`, and `core-header-panel` a height of 100%:
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    core-header-panel {
+      height: 100%;
+    }
+
+Special support is provided for scrolling modes when one uses a core-toolbar or equivalent
+for the header section.
+
+Example:
+
+    <core-header-panel>
+      <core-toolbar>Header</core-toolbar>
+      <div>Content goes here...</div>
+    </core-header-panel>
+
+If you want to use other than `core-toolbar` for the header, add
+`core-header` class to that element.
+
+Example:
+
+    <core-header-panel>
+      <div class="core-header">Header</div>
+      <div>Content goes here...</div>
+    </core-header-panel>
+
+To have the content fits to the main area, use `fit` attribute.
+
+    <core-header-panel>
+      <div class="core-header">standard</div>
+      <div class="content" fit>content fits 100% below the header</div>
+    </core-header-panel>
+
+Use `mode` to control the header and scrolling behavior.
+
+@group Polymer Core Elements
+@element core-header-panel
+@homepage github.io
+-->
+
+
+
+<polymer-element name="core-header-panel" assetpath="../bower_components/core-header-panel/">
+<template>
+
+  <style>:host{display:block;position:relative}#outerContainer{position:absolute;top:0;right:0;bottom:0;left:0}#mainPanel{position:relative}#mainContainer{position:relative;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#dropShadow{position:absolute;top:0;left:0;right:0;height:6px;box-shadow:inset 0 5px 6px -3px rgba(0,0,0,.4)}#dropShadow.hidden{display:none}:host([mode=scroll]) #mainContainer{overflow:visible}:host([mode=scroll]) #outerContainer{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}:host([mode=cover]) #mainPanel{position:static}:host([mode=cover]) #mainContainer{position:absolute;top:0;right:0;bottom:0;left:0}:host([mode=cover]) #dropShadow{position:static;width:100%}</style>
+
+  <div id="outerContainer" vertical="" layout="">
+
+    <content id="headerContent" select="core-toolbar, .core-header"></content>
+
+    <div id="mainPanel" flex="" vertical="" layout="">
+
+      <div id="mainContainer" flex?="{{mode !== &apos;cover&apos;}}">
+        <content id="mainContent" select="*"></content>
+      </div>
+
+      <div id="dropShadow"></div>
+
+    </div>
+
+  </div>
+
+</template>
+<script>Polymer("core-header-panel",{publish:{mode:{value:"",reflect:true},tallClass:"tall",shadow:false},animateDuration:200,modeConfigs:{shadowMode:{waterfall:1,"waterfall-tall":1},noShadow:{seamed:1,cover:1,scroll:1},tallMode:{"waterfall-tall":1},outerScroll:{scroll:1}},ready:function(){this.scrollHandler=this.scroll.bind(this);this.addListener()},detached:function(){this.removeListener(this.mode)},addListener:function(){this.scroller.addEventListener("scroll",this.scrollHandler)},removeListener:function(mode){var s=this.getScrollerForMode(mode);s.removeEventListener("scroll",this.scrollHandler)},domReady:function(){this.async("scroll")},modeChanged:function(old){var header=this.header;if(header){var configs=this.modeConfigs;if(configs.tallMode[old]&&!configs.tallMode[this.mode]){header.classList.remove(this.tallClass);this.async(function(){header.classList.remove("animate")},null,this.animateDuration)}else{header.classList.toggle("animate",configs.tallMode[this.mode])}}if(configs.outerScroll[this.mode]||configs.outerScroll[old]){this.removeListener(old);this.addListener()}this.scroll()},get header(){return this.$.headerContent.getDistributedNodes()[0]},getScrollerForMode:function(mode){return this.modeConfigs.outerScroll[mode]?this.$.outerContainer:this.$.mainContainer},get scroller(){return this.getScrollerForMode(this.mode)},scroll:function(){var configs=this.modeConfigs;var main=this.$.mainContainer;var header=this.header;var sTop=main.scrollTop;var atTop=sTop===0;this.$.dropShadow.classList.toggle("hidden",!this.shadow&&(atTop&&configs.shadowMode[this.mode]||configs.noShadow[this.mode]));if(header&&configs.tallMode[this.mode]){header.classList.toggle(this.tallClass,atTop||header.classList.contains(this.tallClass)&&main.scrollHeight<this.$.outerContainer.offsetHeight)}this.fire("scroll",{target:this.scroller},this,false)}});</script>
+</polymer-element>
+
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`paper-slider` allows user to select a value from a range of values by
+moving the slider thumb.  The interactive nature of the slider makes it a 
+great choice for settings that reflect intensity levels, such as volume, 
+brightness, or color saturation.
+
+Example:
+
+    <paper-slider></paper-slider>
+
+Use `min` and `max` to specify the slider range.  Default is 0 to 100.
+
+Example:
+
+    <paper-slider min="10" max="200" value="110"></paper-slider>
+
+Styling slider:
+
+To change the slider progress bar color:
+
+    paper-slider::shadow #sliderBar::shadow #activeProgress {
+      background-color: #0f9d58;
+    }
+
+To change the slider knob color:
+
+    paper-slider::shadow #sliderKnobInner {
+      background-color: #0f9d58;
+    }
+
+To change the slider pin color:
+
+    paper-slider::shadow #sliderKnobInner::before {
+      background-color: #0f9d58;
+    }
+
+To change the slider pin's value:
+
+    paper-slider::shadow #sliderKnobInner::after {
+      color: #0f9d58
+    }
+
+To change the slider secondary progress bar color:
+
+    paper-slider::shadow #sliderBar::shadow #secondaryProgress {
+      background-color: #0f9d58;
+    }
+
+@group Paper Elements
+@element paper-slider
+@extends core-range
+@homepage github.io
+-->
+
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`core-a11y-keys` provides a normalized interface for processing keyboard commands that pertain to [WAI-ARIA best
+practices](http://www.w3.org/TR/wai-aria-practices/#kbd_general_binding). The element takes care of browser differences
+with respect to Keyboard events and uses an expressive syntax to filter key presses.
+
+Use the `keys` attribute to express what combination of keys will trigger the event to fire.
+
+Use the `target` attribute to set up event handlers on a specific node.
+The `keys-pressed` event will fire when one of the key combinations set with the `keys` attribute is pressed.
+
+Example:
+
+This element will call `arrowHandler` on all arrow keys:
+
+    <core-a11y-keys target="{{}}" keys="up down left right" on-keys-pressed="{{arrowHandler}}"></core-a11y-keys>
+
+Keys Syntax:
+
+The `keys` attribute can accepts a space seprated, `+` concatenated set of modifier keys and some common keyboard keys.
+
+The common keys are `a-z`, `0-9` (top row and number pad), `*` (shift 8 and number pad), `F1-F12`, `Page Up`, `Page
+Down`, `Left Arrow`, `Right Arrow`, `Down Arrow`, `Up Arrow`, `Home`, `End`, `Escape`, `Space`, `Tab`, and `Enter` keys.
+
+The modifier keys are `Shift`, `Control`, and `Alt`.
+
+All keys are expected to be lowercase and shortened:
+`Left Arrow` is `left`, `Page Down` is `pagedown`, `Control` is `ctrl`, `F1` is `f1`, `Escape` is `esc` etc.
+
+Keys Syntax Example:
+
+Given the `keys` attribute value "ctrl+shift+f7 up pagedown esc space alt+m", the `<core-a11y-keys>` element will send
+the `keys-pressed` event if any of the follow key combos are pressed: Control and Shift and F7 keys, Up Arrow key, Page
+Down key, Escape key, Space key, Alt and M key.
+
+Slider Example:
+
+The following is an example of the set of keys that fulfil the WAI-ARIA "slider" role [best
+practices](http://www.w3.org/TR/wai-aria-practices/#slider):
+
+    <core-a11y-keys target="{{}}" keys="left pagedown down" on-keys-pressed="{{decrement}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="right pageup up" on-keys-pressed="{{increment}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="home" on-keys-pressed="{{setMin}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="end" on-keys-pressed="{{setMax}}"></core-a11y-keys>
+
+The `increment` function will move the slider a set amount toward the maximum value.
+The `decrement` function will move the slider a set amount toward the minimum value.
+The `setMin` function will move the slider to the minimum value.
+The `setMax` function will move the slider to the maximum value.
+
+Keys Syntax Grammar:
+
+[EBNF](http://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form) Grammar of the `keys` attribute.
+
+    modifier = "shift" | "ctrl" | "alt";
+    ascii = ? /[a-z0-9]/ ? ;
+    fnkey = ? f1 through f12 ? ;
+    arrow = "up" | "down" | "left" | "right" ;
+    key = "tab" | "esc" | "space" | "*" | "pageup" | "pagedown" | "home" | "end" | arrow | ascii | fnkey ;
+    keycombo = { modifier, "+" }, key ;
+    keys = keycombo, { " ", keycombo } ;
+
+@group Core Elements
+@element core-a11y-keys
+@homepage github.io
+-->
+
+
+
+<style shim-shadowdom="">html /deep/ core-a11y-keys{display:none}</style>
+
+<polymer-element name="core-a11y-keys" assetpath="../bower_components/core-a11y-keys/">
+<script>(function(){var KEY_IDENTIFIER={"U+0009":"tab","U+001B":"esc","U+0020":"space","U+002A":"*","U+0030":"0","U+0031":"1","U+0032":"2","U+0033":"3","U+0034":"4","U+0035":"5","U+0036":"6","U+0037":"7","U+0038":"8","U+0039":"9","U+0041":"a","U+0042":"b","U+0043":"c","U+0044":"d","U+0045":"e","U+0046":"f","U+0047":"g","U+0048":"h","U+0049":"i","U+004A":"j","U+004B":"k","U+004C":"l","U+004D":"m","U+004E":"n","U+004F":"o","U+0050":"p","U+0051":"q","U+0052":"r","U+0053":"s","U+0054":"t","U+0055":"u","U+0056":"v","U+0057":"w","U+0058":"x","U+0059":"y","U+005A":"z","U+007F":"del"};var KEY_CODE={13:"enter",27:"esc",33:"pageup",34:"pagedown",35:"end",36:"home",32:"space",37:"left",38:"up",39:"right",40:"down",46:"del",106:"*"};var KEY_CHAR=/[a-z0-9*]/;function transformKey(key){var validKey="";if(key){var lKey=key.toLowerCase();if(lKey.length==1){if(KEY_CHAR.test(lKey)){validKey=lKey}}else if(lKey=="multiply"){validKey="*"}else{validKey=lKey}}return validKey}var IDENT_CHAR=/U\+/;function transformKeyIdentifier(keyIdent){var validKey="";if(keyIdent){if(IDENT_CHAR.test(keyIdent)){validKey=KEY_IDENTIFIER[keyIdent]}else{validKey=keyIdent.toLowerCase()}}return validKey}function transformKeyCode(keyCode){var validKey="";if(Number(keyCode)){if(keyCode>=65&&keyCode<=90){validKey=String.fromCharCode(32+keyCode)}else if(keyCode>=112&&keyCode<=123){validKey="f"+(keyCode-112)}else if(keyCode>=48&&keyCode<=57){validKey=String(48-keyCode)}else if(keyCode>=96&&keyCode<=105){validKey=String(96-keyCode)}else{validKey=KEY_CODE[keyCode]}}return validKey}function keyboardEventToKey(ev){var normalizedKey=transformKey(ev.key)||transformKeyIdentifier(ev.keyIdentifier)||transformKeyCode(ev.keyCode)||"";return{shift:ev.shiftKey,ctrl:ev.ctrlKey,meta:ev.metaKey,alt:ev.altKey,key:normalizedKey}}function stringToKey(keyCombo){var keys=keyCombo.split("+");var keyObj=Object.create(null);keys.forEach(function(key){if(key=="shift"){keyObj.shift=true}else if(key=="ctrl"){keyObj.ctrl=true}else if(key=="alt"){keyObj.alt=true}else{keyObj.key=key}});return keyObj}function keyMatches(a,b){return Boolean(a.alt)==Boolean(b.alt)&&Boolean(a.ctrl)==Boolean(b.ctrl)&&Boolean(a.shift)==Boolean(b.shift)&&a.key===b.key}function processKeys(ev){var current=keyboardEventToKey(ev);for(var i=0,dk;i<this._desiredKeys.length;i++){dk=this._desiredKeys[i];if(keyMatches(dk,current)){ev.preventDefault();ev.stopPropagation();this.fire("keys-pressed",current,this,false);break}}}function listen(node,handler){if(node&&node.addEventListener){node.addEventListener("keydown",handler)}}function unlisten(node,handler){if(node&&node.removeEventListener){node.removeEventListener("keydown",handler)}}Polymer("core-a11y-keys",{created:function(){this._keyHandler=processKeys.bind(this)},attached:function(){listen(this.target,this._keyHandler)},detached:function(){unlisten(this.target,this._keyHandler)},publish:{keys:"",target:null},keysChanged:function(){var normalized=this.keys.replace("*","* shift+*");this._desiredKeys=normalized.toLowerCase().split(" ").map(stringToKey)},targetChanged:function(oldTarget){unlisten(oldTarget,this._keyHandler);listen(this.target,this._keyHandler)}})})();</script>
+</polymer-element>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+The progress bars are for situations where the percentage completed can be 
+determined. They give users a quick sense of how much longer an operation 
+will take.
+
+Example:
+
+    <paper-progress value="10"></paper-progress>
+    
+There is also a secondary progress which is useful for displaying intermediate 
+progress, such as the buffer level during a streaming playback progress bar.
+
+Example:
+
+    <paper-progress value="10" secondaryProgesss="30"></paper-progress>
+
+Styling progress bar:
+
+To change the active progress bar color:
+
+    paper-progress::shadow #activeProgress {
+      background-color: #e91e63;
+    }
+
+To change the secondary progress bar color:
+
+    paper-progress::shadow #secondaryProgress {
+      background-color: #f8bbd0;
+    }
+    
+To change the progress bar background color:
+
+    paper-progress::shadow #progressContainer {
+      background-color: #64ffda;
+    }
+
+@group Paper Elements
+@element paper-progress
+@extends core-range
+@homepage github.io
+-->
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+The `core-range` element is used for managing a numeric value within a given 
+range.  It has no visual appearance and is typically used in conjunction with 
+another element.
+
+One can build a progress bar using `core-range` like this:
+
+    <core-range min="0" max="200" value="100" ratio="{{ratio}}"></core-range>
+    <div class="progress-bar" style="width: {{ratio}}%;"></div>
+
+@group Polymer Core Elements
+@element core-range
+@homepage github.io
+
+-->
+
+
+
+<polymer-element name="core-range" attributes="value min max step ratio" assetpath="../bower_components/core-range/">
+<script>Polymer("core-range",{value:0,min:0,max:100,step:1,ratio:0,observe:{"value min max step":"update"},calcRatio:function(value){return(this.clampValue(value)-this.min)/(this.max-this.min)},clampValue:function(value){return Math.min(this.max,Math.max(this.min,this.calcStep(value)))},calcStep:function(value){return this.step?Math.round(value/this.step)/(1/this.step):value},validateValue:function(){var v=this.clampValue(this.value);this.value=this.oldValue=isNaN(v)?this.oldValue:v;return this.value!==v},update:function(){this.validateValue();this.ratio=this.calcRatio(this.value)*100}});</script>
+</polymer-element>
+
+
+<polymer-element name="paper-progress" extends="core-range" attributes="secondaryProgress" assetpath="../bower_components/paper-progress/">
+
+  <template>
+  
+    <style>:host{display:inline-block;width:200px;height:4px}#progressContainer{position:relative;height:100%;background-color:#c8c8c8}#activeProgress,#secondaryProgress{position:absolute;top:0;left:0;bottom:0}#activeProgress{background-color:#0f9d58}#secondaryProgress{background-color:#87ceac}</style>
+  
+    <div id="progressContainer" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}">
+    
+      <div id="secondaryProgress" _style="width: {{secondaryRatio}}%;"></div>
+      <div id="activeProgress" _style="width: {{ratio}}%;"></div>
+      
+    </div>
+    
+  </template>
+  
+  <script>Polymer("paper-progress",{secondaryProgress:0,step:0,observe:{"value secondaryProgress min max":"update"},update:function(){this.super();this.secondaryProgress=this.clampValue(this.secondaryProgress);this.secondaryRatio=this.calcRatio(this.secondaryProgress)*100}});</script>
+  
+</polymer-element>
+
+
+
+<polymer-element name="paper-slider" extends="core-range" attributes="snaps pin disabled secondaryProgress editable immediateValue" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" assetpath="../bower_components/paper-slider/">
+<template>
+
+  <style>:host{display:inline-block;width:200px;cursor:default}:host(:focus){outline:0}#sliderContainer{position:relative;width:calc(100% - 32px);height:32px}#sliderContainer.editable{float:left;width:calc(100% - 72px);margin:12px 0}.bar-container{position:absolute;top:0;left:16px;height:100%;width:100%;overflow:hidden}.ring>.bar-container{left:20px;width:calc(100% - 4px);transition:left .18s ease,width .18s ease}.ring.expand:not(.pin)>.bar-container{left:30px;width:calc(100% - 14px)}.ring.expand.dragging>.bar-container{transition:none}#sliderBar{position:absolute;top:15px;left:0;height:2px;width:100%;padding:8px 0;margin:-8px 0}.ring #sliderBar{left:-4px;width:calc(100% + 4px)}.ring.expand:not(.pin) #sliderBar{left:-14px;width:calc(100% + 14px)}.slider-markers{position:absolute;top:15px;left:15px;height:2px;width:calc(100% + 2px);box-sizing:border-box;pointer-events:none}.slider-markers::after,.slider-marker::after{content:"";display:block;width:2px;height:2px;border-radius:50%;background-color:#000}#sliderBar::shadow #activeProgress{background-color:#3f51b5}.transiting #sliderBar::shadow #activeProgress{transition:width .08s ease}#sliderKnob{position:absolute;left:0;top:0;width:32px;height:32px}.transiting>#sliderKnob{transition:left .08s ease}#sliderKnob:focus{outline:0}#sliderKnob.dragging{transition:none}.snaps>#sliderKnob.dragging{transition:-webkit-transform .08s ease;transition:transform .08s ease}#sliderKnobInner{width:12px;height:12px;box-sizing:border-box;-moz-box-sizing:border-box;border-radius:50%;background-color:#3f51b5;transition:height .18s ease,width .18s ease}.expand:not(.pin)>#sliderKnob>#sliderKnobInner{width:100%;height:100%;-webkit-transform:translateZ(0);transform:translateZ(0)}.ring>#sliderKnob>#sliderKnobInner{background-color:transparent;border:2px solid #c8c8c8}#sliderKnobInner::before{background-color:#3f51b5}.pin>#sliderKnob>#sliderKnobInner::before{content:"";position:absolute;top:0;left:0;width:26px;height:26px;margin-left:3px;border-radius:50% 50% 50% 0;-webkit-transform:rotate(-45deg) scale(0) translate(0);transform:rotate(-45deg) scale(0) translate(0)}#sliderKnobInner::before,#sliderKnobInner::after{transition:-webkit-transform .2s ease,background-color .18s ease;transition:transform .2s ease,background-color .18s ease}.pin.ring>#sliderKnob>#sliderKnobInner::before{background-color:#c8c8c8}.pin.expand>#sliderKnob>#sliderKnobInner::before{-webkit-transform:rotate(-45deg) scale(1) translate(17px,-17px);transform:rotate(-45deg) scale(1) translate(17px,-17px)}.pin>#sliderKnob>#sliderKnobInner::after{content:attr(value);position:absolute;top:0;left:0;width:32px;height:26px;text-align:center;color:#fff;font-size:10px;-webkit-transform:scale(0) translate(0);transform:scale(0) translate(0)}.pin.expand>#sliderKnob>#sliderKnobInner::after{-webkit-transform:scale(1) translate(0,-17px);transform:scale(1) translate(0,-17px)}.slider-input{width:40px;float:right;overflow:hidden}.slider-input::shadow input{text-align:center}#sliderContainer.disabled{pointer-events:none}.disabled>#sliderKnob>#sliderKnobInner{width:8px;height:8px;background-color:#c8c8c8}.disabled.ring>#sliderKnob>#sliderKnobInner{background-color:transparent}#sliderContainer.disabled #sliderBar::shadow #activeProgress{background-color:#c8c8c8}</style>
+
+  <template if="{{!disabled}}">
+    <core-a11y-keys target="{{}}" keys="left down pagedown home" on-keys-pressed="{{decrementKey}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="right up pageup end" on-keys-pressed="{{incrementKey}}"></core-a11y-keys>
+  </template>
+
+  <div id="sliderContainer" class="{{ {disabled: disabled, pin: pin, snaps: snaps, ring: immediateValue &lt;= min, expand: expand, dragging: dragging, transiting: transiting, editable: editable} | tokenList }}">
+
+    <div class="bar-container">
+      <paper-progress id="sliderBar" aria-hidden="true" min="{{min}}" max="{{max}}" value="{{immediateValue}}" secondaryprogress="{{secondaryProgress}}" on-down="{{bardown}}" on-up="{{resetKnob}}" on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}"></paper-progress>
+    </div>
+
+    <template if="{{snaps &amp;&amp; !disabled}}">
+      <div class="slider-markers" horizontal="" layout="">
+        <template repeat="{{markers}}">
+          <div flex="" class="slider-marker"></div>
+        </template>
+      </div>
+    </template>
+
+    <div id="sliderKnob" on-down="{{expandKnob}}" on-up="{{resetKnob}}" on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}" on-transitionend="{{knobTransitionEnd}}" center-justified="" center="" horizontal="" layout="">
+
+      <div id="sliderKnobInner" value="{{immediateValue}}"></div>
+
+    </div>
+
+  </div>
+
+  <template if="{{editable}}">
+    <paper-input id="input" class="slider-input" value="{{immediateValue}}" disabled?="{{disabled}}" on-change="{{inputChange}}"></paper-input>
+  </template>
+
+</template>
+<script>Polymer("paper-slider",{snaps:false,pin:false,disabled:false,secondaryProgress:0,editable:false,observe:{"step snaps":"update"},ready:function(){this.update()},update:function(){this.positionKnob(this.calcRatio(this.value));this.updateMarkers()},minChanged:function(){this.update();this.setAttribute("aria-valuemin",this.min)},maxChanged:function(){this.update();this.setAttribute("aria-valuemax",this.max)},valueChanged:function(){this.update();this.setAttribute("aria-valuenow",this.value);this.fire("core-change")},disabledChanged:function(){if(this.disabled){this.removeAttribute("tabindex")}else{this.tabIndex=0}},immediateValueChanged:function(){if(!this.dragging){this.value=this.immediateValue}},expandKnob:function(){this.expand=true},resetKnob:function(){this.expandJob&&this.expandJob.stop();this.expand=false},positionKnob:function(ratio){this.immediateValue=this.calcStep(this.calcKnobPosition(ratio))||0;this._ratio=this.snaps?this.calcRatio(this.immediateValue):ratio;this.$.sliderKnob.style.left=this._ratio*100+"%"},inputChange:function(){this.value=this.$.input.value;this.fire("change")},calcKnobPosition:function(ratio){return(this.max-this.min)*ratio+this.min},trackStart:function(e){this._w=this.$.sliderBar.offsetWidth;this._x=this._ratio*this._w;this._startx=this._x||0;this._minx=-this._startx;this._maxx=this._w-this._startx;this.$.sliderKnob.classList.add("dragging");this.dragging=true;e.preventTap()},trackx:function(e){var x=Math.min(this._maxx,Math.max(this._minx,e.dx));this._x=this._startx+x;this.immediateValue=this.calcStep(this.calcKnobPosition(this._x/this._w))||0;var s=this.$.sliderKnob.style;s.transform=s.webkitTransform="translate3d("+(this.snaps?this.calcRatio(this.immediateValue)*this._w-this._startx:x)+"px, 0, 0)"},trackEnd:function(){var s=this.$.sliderKnob.style;s.transform=s.webkitTransform="";this.$.sliderKnob.classList.remove("dragging");this.dragging=false;this.resetKnob();this.value=this.immediateValue;this.fire("change")},bardown:function(e){this.transiting=true;this._w=this.$.sliderBar.offsetWidth;var rect=this.$.sliderBar.getBoundingClientRect();var ratio=(e.x-rect.left)/this._w;this.positionKnob(ratio);this.expandJob=this.job(this.expandJob,this.expandKnob,60);this.fire("change")},knobTransitionEnd:function(e){if(e.target===this.$.sliderKnob){this.transiting=false}},updateMarkers:function(){this.markers=[],l=(this.max-this.min)/this.step;for(var i=0;i<l;i++){this.markers.push("")}},increment:function(){this.value=this.clampValue(this.value+this.step)},decrement:function(){this.value=this.clampValue(this.value-this.step)},incrementKey:function(ev,keys){if(keys.key==="end"){this.value=this.max}else{this.increment()}this.fire("change")},decrementKey:function(ev,keys){if(keys.key==="home"){this.value=this.min}else{this.decrement()}this.fire("change")}});</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="radio-app" attributes="" vertical="" layout="" assetpath="radio-app/">
+  <template>
+    <style>:host{display:block}core-selector{margin:1em 0}audio-source{width:100px;height:100px;vertical-align:center;background-color:#fff;box-shadow:0 12px 15px 0 rgba(0,0,0,.24);margin:5px;position:relative;cursor:pointer}audio-source>paper-ripple{overflow:hidden}file-drop{margin-top:1em;padding:2em;border:1px dashed}</style>
+    <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
+    <core-header-panel flex="" mode="waterfall-tall" tallclass="medium-tall">
+      <core-toolbar id="toolbar">
+        <paper-menu-button icon="menu" id="mainMenu">
+          <paper-item icon="file-download" on-click="{{ fileDownload }}" download="Playlist.m3u">Download Playlist</paper-item>
+          <paper-item icon="clear" on-click="{{ clearPlaylist }}" download="Playlist.m3u">Clear Playlist</paper-item>
+        </paper-menu-button>
+        <audio-player flex="" layout="" horizontal="" id="player" volume="{{ volume }}" muted="{{ muted }}">
+        </audio-player>
+        <div class="bottom" layout="" horizontal="" fit="">
+          <paper-icon-button id="volumeIcon" icon="av:volume-up" on-click="{{ toggleMuted }}" self-center=""></paper-icon-button>
+          <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" pin="" self-center="">
+          </paper-slider>
+        </div>
+      </core-toolbar>
+
+      <file-drop flex="" on-file-drop="{{ addStation }}">
+        Drop <em>m3u</em> Playlists here.
+      </file-drop>
+      <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout="" horizontal="">
+        <template repeat="{{ station in stations }}">
+          <audio-source url="{{ station.url }}" name="{{ station.name }}">
+            <paper-ripple fit=""></paper-ripple>
+          </audio-source>
+        </template>
+      </core-selector>
+    </core-header-panel>
+  </template>
+  <script>(function(){"use strict";var m3u=/(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g,m3uType="application/x-mpegurl";Polymer("radio-app",{addStation:function(e,detail){var content=detail.body;var match;while((match=m3u.exec(content))!==null){var name=match[1],url=match[2];this.url=url;this.stations=this.stations||[];this.stations.push({name:name,url:url});this.$.storage.save()}},observe:{muted:"updateVolumeIcon",volume:"updateVolumeIcon"},playStation:function(e,detail){this.$.player.setStation(detail.item)},toggleMuted:function(){this.muted=!this.muted},updateVolumeIcon:function(){if(this.muted){this.$.volumeIcon.icon="av:volume-mute"}else if(this.volume<.5){this.$.volumeIcon.icon="av:volume-down"}else{this.$.volumeIcon.icon="av:volume-up"}},fileDownload:function(){var file="#EXTM3U\n";this.stations.forEach(function(station){file+="#EXTINF:-1,"+station.name+"\n";file+=station.url+"\n"});var a=document.createElement("a");a.download="Playist.m3u";a.href="data:"+m3uType+";charset=utf-8,"+encodeURIComponent(file);a.textContent="Download playlist";a.dataset.downloadurl=[m3uType,a.download,a.href].join(":");return a.click()},clearPlaylist:function(){this.stations=[]}})})();</script>
 </polymer-element>
 </div>

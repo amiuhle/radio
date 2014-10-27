@@ -4,10 +4,12 @@
 <polymer-element name="audio-source" attributes="name url">
   <template>
     <link rel="stylesheet" href="audio-source.css">
-    <span class="name" flex vertical>
-      <content></content>
-    </span>
-    <paper-ripple fit></paper-ripple>
+    <div layout horizontal fit>
+      <div class="name" self-center>
+        {{ name }}
+      </div>
+    </div>
+    <content></content>
   </template>
   <script>
     Polymer('audio-source', {

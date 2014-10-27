@@ -1,0 +1,92 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-icons/av-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
+
+<polymer-element name="audio-player" attributes="url name volume muted elapsed">
+  <template>
+    <link rel="stylesheet" href="audio-player.css">
+    <audio id="player" src="{{ url }}"></audio>
+    <core-tooltip flex self-center label="{{ url }}">
+      {{ name }}
+    </core-tooltip>
+    <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}">
+    </paper-icon-button>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      /* jshint -W064 */
+      Polymer({
+      /* jshint +W064 */
+
+        // ready: function() {
+        //   console.log('ready', arguments);
+        //   this.onMutation(this, this.childrenUpdated);
+        // },
+        //
+        // childrenUpdated: function(observer, mutations) {
+        //   console.log('childrenUpdated', arguments);
+        //   mutations.forEach(function(record) {
+        //     debugger;
+        //     console.log(record.addedNodes);
+        //   }.bind(this));
+        // },
+
+        ready: function() {
+          // var observer = new MutationObserver(function(mutations) {
+          //   console.log(mutations);
+          // }.bind(this));
+          // observer.observe(this.$.player, { attributes: true });
+          this.muted = this.$.player.muted;
+          this.volume = this.$.player.volume;
+        },
+
+        volumeChanged: function(oldValue, newValue) {
+          this.$.player.volume = newValue;
+        },
+
+        mutedChanged: function(oldValue, newValue) {
+          this.$.player.muted = newValue;
+        },
+
+        //TODO: find out why this doens't work, that'd be neat!
+        // observe: {
+        //   '$.player.paused': 'updateIcon',
+        //   '$.player.volume': 'updateVolume'
+        // },
+
+        updateIcon: function() {
+          this.$.playPause.icon = this.$.player.paused ? 'av:play-arrow' : 'av:pause';
+        },
+
+        updateVolume: function() {
+          console.log('updateVolume', arguments);
+        },
+
+        playPause: function() {
+          if(this.$.player.paused) {
+            this.$.player.play();
+          } else {
+            this.$.player.pause();
+          }
+          this.updateIcon();
+        },
+
+        setStation: function(station) {
+          this.url = station.url;
+          this.name = station.name;
+          setTimeout(this.playPause.bind(this), 0);
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
