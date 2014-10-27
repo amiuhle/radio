@@ -21,18 +21,9 @@
   <!-- endbuild-->
 </head>
 
-<body unresolved>
-  <template id="radio" is="auto-binding" stations="{{ stations }}">
-    <core-localstorage name="stations" value="{{ stations }}"></core-localstorage>
-    <radio-player>
-      <template repeat="{{ stations }}">
-        <audio-source url="{{ url }}">{{ name }}</audio-source>
-      </template>
-    </radio-player>
-    <file-drop flex on-file-drop="{{ addStation }}">
-      Drop <em>m3u</em> Playlists here.
-    </file-drop>
-  </template>
+<body unresolved fullbleed vertical layout>
+  <radio-app fit>
+  </radio-app>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
