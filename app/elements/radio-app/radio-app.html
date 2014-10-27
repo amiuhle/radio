@@ -12,8 +12,7 @@
     <core-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
       <core-toolbar id="toolbar">
         <paper-menu-button icon="menu" id="mainMenu">
-          <paper-item>Add</paper-item>
-          <paper-item>Add</paper-item>
+          <paper-item icon="file-download" on-click="{{ fileDownload }}" download="Playlist.m3u">Download Playlist</paper-item>
         </paper-menu-button>
         <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
         </audio-player>
@@ -40,7 +39,8 @@
     (function () {
       'use strict';
 
-      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
+      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g,
+          m3uType = 'application/x-mpegurl';
 
       /* jshint -W064 */
       Polymer({
@@ -85,6 +85,22 @@
           } else {
             this.$.volumeIcon.icon = 'av:volume-up';
           }
+        },
+
+        fileDownload: function() {
+          var file = '#EXTM3U\n';
+          this.stations.forEach(function(station) {
+            file += '#EXTINF:-1,' + station.name + '\n';
+            file += station.url + '\n';
+          });
+
+          var a = document.createElement('a');
+          a.download = 'Playist.m3u';
+          a.href = 'data:' + m3uType + ';charset=utf-8,' + encodeURIComponent(file);
+          a.textContent = 'Download playlist';
+          a.dataset.downloadurl = [m3uType, a.download, a.href].join(':');
+
+          return a.click();
         }
 
       });
