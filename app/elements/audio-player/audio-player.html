@@ -9,10 +9,10 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
 
-<polymer-element name="audio-player" attributes="url name volume muted elapsed" volume="0.5">
+<polymer-element name="audio-player" attributes="url name volume muted elapsed">
   <template>
     <link rel="stylesheet" href="audio-player.css">
-    <audio id="player" src="{{ url }}"></audio>
+    <audio id="player" src="{{ url }}" volume="0.5"></audio>
     <core-tooltip flex self-center label="{{ url }}">
       {{ name }}
     </core-tooltip>
@@ -26,18 +26,35 @@
       /* jshint -W064 */
       Polymer({
       /* jshint +W064 */
-        muted: false,
-
-        observe: {
-          '$.player.paused': 'updateIcon'
+        get muted() {
+          return this.$ && this.$.player.muted || false;
         },
 
-        get volume() {
-          return this.$ && this.$.player && this.$.player.volume;
+        set muted(value) {
+          this.$.player.muted = true;
         },
-        set volume(value) {
+
+        volume: 10,
+        volumeChanged: function(value) {
+          // value = parseInt(value, 10) / 10;
+          // console.log(value);
           this.$.player.volume = value;
         },
+
+        ready: function() {
+        },
+
+        observe: {
+          '$.player.paused': 'updateIcon',
+          '$.player.volume': 'volume'
+        },
+
+        // get volume() {
+        //   return (this.$ && this.$.player && this.$.player.volume) || 0.5;
+        // },
+        // set volume(value) {
+        //   this.$.player.volume = value;
+        // },
 
         playPause: function() {
           if(this.$.player.paused) {
@@ -53,7 +70,6 @@
         },
 
         setStation: function(station) {
-          debugger;
           this.url = station.url;
           this.name = station.name;
           setTimeout(this.playPause.bind(this), 0);

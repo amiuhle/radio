@@ -15,11 +15,11 @@
           <paper-item>Add</paper-item>
           <paper-item>Add</paper-item>
         </paper-menu-button>
-        <audio-player flex layout horizontal id="player" volume="{{ volume / 100}}">
+        <audio-player flex layout horizontal id="player" volume="{{ volume }}">
         </audio-player>
         <div class="bottom"  layout horizontal fit>
           <paper-icon-button icon="av:volume-up" self-center></paper-icon-button>
-          <paper-slider id="volume" value="{{ volume }}" self-center>
+          <paper-slider id="volume" ratio="{{ volume }}" min="0" max="100" self-center>
           </paper-slider>
         </div>
       </core-toolbar>
