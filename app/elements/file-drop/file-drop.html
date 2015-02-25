@@ -1,13 +1,30 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+
 <polymer-element name="file-drop" attributes="">
   <template>
     <style>
       :host {
         display: block;
       }
+
+      #uploadInput {
+        display: none;
+      }
     </style>
-    <content></content>
+
+    <div layout horizontal>
+      <span>
+        <paper-icon-button icon="file-upload" on-click="{{ triggerUpload }}">
+          <input type="file" multiple id="upload" on-change="{{ onUpload }}" />
+        </paper-icon-button>
+      </span>
+      <div flex self-center>
+        <content></content>
+      </div>
+    </div>
   </template>
   <script>
     (function () {
@@ -31,7 +48,16 @@
 
         onDrop: function(e) {
           e.preventDefault();
-          forEach.call(e.dataTransfer.files, function(file) {
+          this.readFiles(e.dataTransfer.files);
+        },
+
+        onUpload: function(e) {
+          e.preventDefault();
+          this.readFiles(e.target.files);
+        },
+
+        readFiles: function(files) {
+          forEach.call(files, function(file) {
             var reader = new FileReader();
             reader.addEventListener('load', function(e) {
               if(e.loaded === e.total) {
@@ -48,6 +74,10 @@
             }.bind(this));
             reader.readAsText(file);
           }.bind(this));
+        },
+
+        triggerUpload: function() {
+          this.$.upload.click();
         }
 
       });
