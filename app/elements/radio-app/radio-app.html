@@ -1,8 +1,11 @@
 <link rel="import" href="../../../bower_components/core-localstorage/core-localstorage.html">
 <link rel="import" href="../../../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../../../bower_components/core-selector/core-selector.html">
+<link rel="import" href="../../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../../bower_components/paper-dropdown/paper-dropdown.html">
 
 
 <polymer-element name="radio-app" attributes="" vertical layout>
@@ -12,8 +15,13 @@
     <core-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
       <core-toolbar id="toolbar">
         <paper-menu-button icon="menu" id="mainMenu">
-          <paper-item icon="file-download" on-click="{{ fileDownload }}" download="Playlist.m3u">Download Playlist</paper-item>
-          <paper-item icon="clear" on-click="{{ clearPlaylist }}" download="Playlist.m3u">Clear Playlist</paper-item>
+          <paper-icon-button icon="menu" noink></paper-icon-button>
+          <paper-dropdown class="dropdown">
+            <core-menu class="menu">
+              <paper-item icon="file-download" on-click="{{ fileDownload }}" download="Playlist.m3u">Download Playlist</paper-item>
+              <paper-item icon="clear" on-click="{{ clearPlaylist }}" download="Playlist.m3u">Clear Playlist</paper-item>
+            </core-menu>
+          </paper-dropdown>
         </paper-menu-button>
         <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
         </audio-player>
