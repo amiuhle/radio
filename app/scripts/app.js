@@ -1,27 +1,20 @@
-(function(document) {
+(function (document) {
   'use strict';
 
-  var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g;
+  // Grab a reference to our auto-binding template
+  // and give it some initial binding values
+  // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
+  // var app = document.querySelector('#app');
+  // app.appName = 'Yo, Polymer App!';
+
+  // Listen for template bound event to know when bindings
+  // have resolved and content has been stamped to the page
+  // app.addEventListener('template-bound', function() {
+  //   console.log('Our app is ready to rock!');
+  // });
 
   document.addEventListener('polymer-ready', function() {
-    var radio = document.querySelector('#radio'),
-        storage = radio.querySelector('core-localstorage');
-    radio.addStation = function(e, detail/*, target*/) {
-      var content = detail.body;
-      var match;
-      while((match = m3u.exec(content)) !== null) {
-        var /*entry = match[0],*/
-            name = match[1],
-            url = match[2];
-        this.url = url;
-        this.stations = this.stations || [];
-        this.stations.push({
-          name: name,
-          url: url
-        });
-        storage.save();
-      }
-    };
+
   });
 
 // wrap document so it plays nice with other libraries

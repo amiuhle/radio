@@ -1,0 +1,128 @@
+<link rel="import" href="../../../bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="../../../bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="../../../bower_components/core-selector/core-selector.html">
+<link rel="import" href="../../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../../bower_components/paper-dropdown/paper-dropdown.html">
+
+
+<polymer-element name="radio-app" attributes="" vertical layout>
+  <template>
+    <link rel="stylesheet" href="radio-app.css">
+    <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
+    <core-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
+      <core-toolbar id="toolbar">
+        <paper-menu-button icon="menu" id="mainMenu">
+          <paper-icon-button icon="menu" noink></paper-icon-button>
+          <paper-dropdown class="dropdown">
+            <core-menu class="menu">
+              <paper-item on-click="{{ fileDownload }}">
+                <core-icon icon="file-download"></core-icon> Download Playlist
+              </paper-item>
+              <paper-item on-click="{{ clearPlaylist }}">
+                <core-icon icon="clear"></core-icon> Clear Playlist
+              </paper-item>
+            </core-menu>
+          </paper-dropdown>
+        </paper-menu-button>
+        <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
+        </audio-player>
+        <div class="bottom"  layout horizontal fit>
+          <paper-icon-button id="volumeIcon" icon="av:volume-up" on-click="{{ toggleMuted }}" self-center></paper-icon-button>
+          <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" pin self-center>
+          </paper-slider>
+        </div>
+      </core-toolbar>
+
+      <file-drop flex on-file-drop="{{ addStation }}">
+        Drop <em>m3u</em> Playlists here.
+      </file-drop>
+      <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
+        <template repeat="{{ station in stations }}">
+          <audio-source url="{{ station.url }}" name="{{ station.name }}">
+            <paper-ripple fit></paper-ripple>
+          </audio-source>
+        </template>
+      </core-selector>
+    </core-header-panel>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      var m3u = /(?:#EXTINF:-?\d*,(.*)\n)*(http.*)/g,
+          m3uType = 'application/x-mpegurl';
+
+      /* jshint -W064 */
+      Polymer({
+      /* jshint +W064 */
+
+      addStation: function(e, detail/*, target*/) {
+          var content = detail.body;
+          var match;
+          while((match = m3u.exec(content)) !== null) {
+            var /*entry = match[0],*/
+                name = match[1],
+                url = match[2];
+            this.url = url;
+            this.stations = this.stations || [];
+            this.stations.push({
+              name: name,
+              url: url
+            });
+            this.$.storage.save();
+          }
+        },
+
+        observe: {
+          muted: 'updateVolumeIcon',
+          volume: 'updateVolumeIcon'
+        },
+
+        playStation: function(e, detail) {
+          this.$.player.setStation(detail.item);
+          // this.$.player.appendChild(detail.item.cloneNode());
+        },
+
+        toggleMuted: function() {
+          this.muted = !this.muted;
+        },
+
+        updateVolumeIcon: function() {
+          if(this.muted) {
+            this.$.volumeIcon.icon = 'av:volume-mute';
+          } else if(this.volume < 0.5) {
+            this.$.volumeIcon.icon = 'av:volume-down';
+          } else {
+            this.$.volumeIcon.icon = 'av:volume-up';
+          }
+        },
+
+        fileDownload: function() {
+          var file = '#EXTM3U\n';
+          this.stations.forEach(function(station) {
+            file += '#EXTINF:-1,' + station.name + '\n';
+            file += station.url + '\n';
+          });
+
+          var a = document.createElement('a');
+          a.download = 'Playist.m3u';
+          a.href = 'data:' + m3uType + ';charset=utf-8,' + encodeURIComponent(file);
+          a.textContent = 'Download playlist';
+          a.dataset.downloadurl = [m3uType, a.download, a.href].join(':');
+          // a.draggable = true; TODO: create link on playlist edit, add directly to menu?
+
+          return a.click();
+        },
+
+        clearPlaylist: function() {
+          this.stations = [];
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>
