@@ -3,7 +3,6 @@
   "version": "0.3.0",
   "dependencies": {},
   "devDependencies": {
-    "web-component-tester": "~2.2.4",
     "apache-server-configs": "~2.11.0",
     "browser-sync": "~2.2.1",
     "del": "~1.1.1",
@@ -13,6 +12,7 @@
     "gulp-changed": "~1.1.1",
     "gulp-cssmin": "~0.1.6",
     "gulp-flatten": "~0.0.4",
+    "gulp-gh-pages": "^0.4.0",
     "gulp-if": "~1.2.5",
     "gulp-imagemin": "~2.2.1",
     "gulp-jshint": "~1.9.2",
@@ -31,7 +31,8 @@
     "opn": "~1.0.1",
     "psi": "~1.0.6",
     "require-dir": "~0.1.0",
-    "run-sequence": "~1.0.2"
+    "run-sequence": "~1.0.2",
+    "web-component-tester": "~2.2.4"
   },
   "engines": {
     "node": ">=0.10.0"
