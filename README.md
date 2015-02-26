@@ -8,6 +8,9 @@ Check out the current version at [amiuhle.github.io/radio](http://amiuhle.github
 Changelog
 ---------
 
+### 0.4.1
+* Fixed style and script paths for gh-pages
+
 ### 0.4.0
 * Added upload button to drop area for mobile usage
 * Upgraded to Polymer 0.5
