@@ -8,6 +8,11 @@ Check out the current version at [amiuhle.github.io/radio](http://amiuhle.github
 Changelog
 ---------
 
+### 0.4.0
+* Added upload button to drop area for mobile usage
+* Upgraded to Polymer 0.5
+* Using gulp for building
+
 ### 0.3.0
 * Volume & Mute controls
 * Playlist download & clear

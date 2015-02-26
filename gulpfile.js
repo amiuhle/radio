@@ -9,18 +9,19 @@ var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
 var merge = require('merge-stream');
+var deploy = require('gulp-gh-pages');
 
-var AUTOPREFIXER_BROWSERS = [
-  'ie >= 10',
-  'ie_mob >= 10',
-  'ff >= 30',
-  'chrome >= 34',
-  'safari >= 7',
-  'opera >= 23',
-  'ios >= 7',
-  'android >= 4.4',
-  'bb >= 10'
-];
+// var AUTOPREFIXER_BROWSERS = [
+//   'ie >= 10',
+//   'ie_mob >= 10',
+//   'ff >= 30',
+//   'chrome >= 34',
+//   'safari >= 7',
+//   'opera >= 23',
+//   'ios >= 7',
+//   'android >= 4.4',
+//   'bb >= 10'
+// ];
 
 // Lint JavaScript
 gulp.task('jshint', function () {
@@ -204,6 +205,11 @@ gulp.task('default', ['clean'], function (cb) {
     ['jshint', 'images', 'fonts', 'html'],
     'vulcanize',
     cb);
+});
+
+gulp.task('deploy', ['default'], function () {
+    return gulp.src('./dist/**/*')
+        .pipe(deploy());
 });
 
 // Run PageSpeed Insights
