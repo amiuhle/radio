@@ -1,32 +1,31 @@
-<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
-<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
-<link rel="import" href="../../bower_components/core-selector/core-selector.html">
-<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 
 <dom-module id="radio-app" attributes="" vertical layout>
   <template>
     <link rel="stylesheet" href="radio-app.css">
-    <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
-    <core-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
+    <iron-localstorage id="storage" name="stations" value="{{ stations }}"></iron-localstorage>
+    <paper-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
       <core-toolbar id="toolbar">
-        <paper-menu-button icon="menu" id="mainMenu">
+        <paper-icon-button icon="menu" id="mainMenu">
           <paper-icon-button icon="menu" noink></paper-icon-button>
           <paper-dropdown class="dropdown">
-            <core-menu class="menu">
+            <paper-menu class="menu">
               <paper-item on-click="{{ fileDownload }}">
                 <core-icon icon="file-download"></core-icon> Download Playlist
               </paper-item>
               <paper-item on-click="{{ clearPlaylist }}">
                 <core-icon icon="clear"></core-icon> Clear Playlist
               </paper-item>
-            </core-menu>
+            </paper-menu>
           </paper-dropdown>
-        </paper-menu-button>
+        </paper-icon-button>
         <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
         </audio-player>
         <div class="bottom"  layout horizontal fit>
@@ -39,14 +38,14 @@
       <file-drop flex on-file-drop="{{ addStation }}">
         Drop <em>m3u</em> Playlists here.
       </file-drop>
-      <core-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
+      <iron-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
         <template repeat="{{ station in stations }}">
           <audio-source url="{{ station.url }}" name="{{ station.name }}">
             <paper-ripple fit></paper-ripple>
           </audio-source>
         </template>
-      </core-selector>
-    </core-header-panel>
+      </iron-selector>
+    </paper-header-panel>
   </template>
   <script>
     (function () {
