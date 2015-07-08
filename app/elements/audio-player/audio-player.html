@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
 
-<polymer-element name="audio-player" attributes="url name volume muted elapsed">
+<dom-module id="audio-player" attributes="url name volume muted elapsed">
   <template>
     <link rel="stylesheet" href="audio-player.css">
     <audio id="player" src="{{ url }}"></audio>
@@ -26,6 +26,7 @@
       /* jshint -W064 */
       Polymer({
       /* jshint +W064 */
+        is: 'audio-player',
 
         // ready: function() {
         //   console.log('ready', arguments);
@@ -89,4 +90,4 @@
 
     })();
   </script>
-</polymer-element>
+</dom-module>

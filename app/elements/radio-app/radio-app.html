@@ -8,7 +8,7 @@
 <link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
 
 
-<polymer-element name="radio-app" attributes="" vertical layout>
+<dom-module id="radio-app" attributes="" vertical layout>
   <template>
     <link rel="stylesheet" href="radio-app.css">
     <core-localstorage id="storage" name="stations" value="{{ stations }}"></core-localstorage>
@@ -59,7 +59,9 @@
       Polymer({
       /* jshint +W064 */
 
-      addStation: function(e, detail/*, target*/) {
+        is: 'radio-app',
+
+        addStation: function(e, detail/*, target*/) {
           var content = detail.body;
           var match;
           while((match = m3u.exec(content)) !== null) {
@@ -125,4 +127,4 @@
 
     })();
   </script>
-</polymer-element>
+</dom-module>

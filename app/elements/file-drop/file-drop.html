@@ -3,7 +3,7 @@
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
-<polymer-element name="file-drop" attributes="">
+<dom-module id="file-drop" attributes="">
   <template>
     <style>
       :host {
@@ -35,6 +35,8 @@
       /* jshint -W064 */
       Polymer({
       /* jshint +W064 */
+        is: 'file-drop',
+
         ready: function() {
           this.addEventListener('dragover', this.onDragOver);
           this.addEventListener('drop', this.onDrop);
@@ -84,4 +86,4 @@
 
     })();
   </script>
-</polymer-element>
+</dom-module>
