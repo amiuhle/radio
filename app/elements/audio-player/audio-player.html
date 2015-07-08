@@ -7,13 +7,13 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
-<dom-module id="audio-player" attributes="url name volume muted elapsed">
+<dom-module id="audio-player">
+  <link rel="stylesheet" href="audio-player.css">
   <template>
-    <link rel="stylesheet" href="audio-player.css">
     <audio id="player" src="{{ url }}"></audio>
-    <core-tooltip flex self-center label="{{ url }}">
+    <!--core-tooltip flex self-center label="{{ url }}">
       {{ name }}
-    </core-tooltip>
+    </core-tooltip-->
     <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}">
     </paper-icon-button>
   </template>
@@ -26,24 +26,14 @@
       /* jshint +W064 */
         is: 'audio-player',
 
-        // ready: function() {
-        //   console.log('ready', arguments);
-        //   this.onMutation(this, this.childrenUpdated);
-        // },
-        //
-        // childrenUpdated: function(observer, mutations) {
-        //   console.log('childrenUpdated', arguments);
-        //   mutations.forEach(function(record) {
-        //     debugger;
-        //     console.log(record.addedNodes);
-        //   }.bind(this));
-        // },
+        properties: {
+          url: String,
+          name: String,
+          volume: Number,
+          muted: Boolean
+        },
 
         ready: function() {
-          // var observer = new MutationObserver(function(mutations) {
-          //   console.log(mutations);
-          // }.bind(this));
-          // observer.observe(this.$.player, { attributes: true });
           this.muted = this.$.player.muted;
           this.volume = this.$.player.volume;
         },

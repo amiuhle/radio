@@ -1,9 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
 
-<dom-module id="audio-source" attributes="name url">
+<dom-module id="audio-source">
+  <link rel="stylesheet" href="audio-source.css">
   <template>
-    <link rel="stylesheet" href="audio-source.css">
     <div layout horizontal fit>
       <div class="name" self-center>
         {{ name }}
@@ -13,7 +13,11 @@
   </template>
   <script>
     Polymer({
-      is: 'audio-source'
+      is: 'audio-source',
+      properties: {
+        name: String,
+        url: String
+      }
     });
   </script>
 </dom-module>

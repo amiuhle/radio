@@ -7,12 +7,12 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 
-<dom-module id="radio-app" attributes="" vertical layout>
+<dom-module id="radio-app" vertical layout>
+  <link rel="stylesheet" href="radio-app.css">
   <template>
-    <link rel="stylesheet" href="radio-app.css">
     <iron-localstorage id="storage" name="stations" value="{{ stations }}"></iron-localstorage>
-    <paper-header-panel flex mode="waterfall-tall" tallclass="medium-tall">
-      <core-toolbar id="toolbar">
+    <paper-header-panel flex mode="waterfall-tall" tall-class="medium-tall">
+      <paper-toolbar id="toolbar">
         <paper-icon-button icon="menu" id="mainMenu">
           <paper-icon-button icon="menu" noink></paper-icon-button>
           <paper-dropdown class="dropdown">
@@ -33,18 +33,20 @@
           <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" pin self-center>
           </paper-slider>
         </div>
-      </core-toolbar>
+      </paper-toolbar>
 
-      <file-drop flex on-file-drop="{{ addStation }}">
-        Drop <em>m3u</em> Playlists here.
-      </file-drop>
-      <iron-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
-        <template repeat="{{ station in stations }}">
-          <audio-source url="{{ station.url }}" name="{{ station.name }}">
-            <paper-ripple fit></paper-ripple>
-          </audio-source>
-        </template>
-      </iron-selector>
+      <div>
+        <file-drop flex on-file-drop="{{ addStation }}">
+          Drop <em>m3u</em> Playlists here.
+        </file-drop>
+        <iron-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
+          <template repeat="{{ station in stations }}">
+            <audio-source url="{{ station.url }}" name="{{ station.name }}">
+              <paper-ripple fit></paper-ripple>
+            </audio-source>
+          </template>
+        </iron-selector>
+      </div>
     </paper-header-panel>
   </template>
   <script>

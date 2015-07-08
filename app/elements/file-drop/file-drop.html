@@ -3,18 +3,18 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
-<dom-module id="file-drop" attributes="">
+<dom-module id="file-drop">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #uploadInput {
+      display: none;
+    }
+  </style>
+
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-
-      #uploadInput {
-        display: none;
-      }
-    </style>
-
     <div layout horizontal>
       <span>
         <paper-icon-button icon="file-upload" on-click="{{ triggerUpload }}">
@@ -26,6 +26,7 @@
       </div>
     </div>
   </template>
+
   <script>
     (function () {
       'use strict';
