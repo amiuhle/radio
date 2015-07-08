@@ -1,9 +1,7 @@
 {
   "name": "radio",
   "dependencies": {
-    "core-elements": "Polymer/core-elements#~0.5.5",
-    "paper-elements": "Polymer/paper-elements#~0.5.5",
-    "polymer": "Polymer/polymer#^0.5.4"
+    "polymer": "Polymer/polymer#^1.0.5"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#~2.2.4"
