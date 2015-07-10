@@ -5,7 +5,7 @@
     <!--core-tooltip flex self-center label="{{ url }}">
       {{ name }}
     </core-tooltip-->
-    <paper-icon-button icon="av:play-arrow" id="playPause" on-click="{{ playPause }}">
+    <paper-icon-button icon="av:play-arrow" id="playPause" on-click="playPause">
     </paper-icon-button>
   </template>
   <script>
@@ -20,8 +20,14 @@
         properties: {
           url: String,
           name: String,
-          volume: Number,
-          muted: Boolean
+          volume: {
+            type: Number,
+            observer: 'volumeChanged'
+          },
+          muted: {
+            type: Boolean,
+            observer: 'mutedChanged'
+          }
         },
 
         ready: function() {
@@ -29,11 +35,11 @@
           this.volume = this.$.player.volume;
         },
 
-        volumeChanged: function(oldValue, newValue) {
+        volumeChanged: function(newValue, oldValue) {
           this.$.player.volume = newValue;
         },
 
-        mutedChanged: function(oldValue, newValue) {
+        mutedChanged: function(newValue, oldValue) {
           this.$.player.muted = newValue;
         },
 

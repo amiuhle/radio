@@ -8,10 +8,10 @@
           <paper-icon-button icon="menu" noink></paper-icon-button>
           <paper-dropdown class="dropdown">
             <paper-menu class="menu">
-              <paper-item on-click="{{ fileDownload }}">
+              <paper-item on-click="fileDownload">
                 <core-icon icon="file-download"></core-icon> Download Playlist
               </paper-item>
-              <paper-item on-click="{{ clearPlaylist }}">
+              <paper-item on-click="clearPlaylist">
                 <core-icon icon="clear"></core-icon> Clear Playlist
               </paper-item>
             </paper-menu>
@@ -20,20 +20,20 @@
         <audio-player flex layout horizontal id="player" volume="{{ volume }}" muted="{{ muted }}">
         </audio-player>
         <div class="bottom"  layout horizontal fit>
-          <paper-icon-button id="volumeIcon" icon="av:volume-up" on-click="{{ toggleMuted }}" self-center></paper-icon-button>
+          <paper-icon-button id="volumeIcon" icon="av:volume-up" on-click="toggleMuted" self-center></paper-icon-button>
           <paper-slider value="{{ volume }}" min="0" max="1" step="0.01" pin self-center>
           </paper-slider>
         </div>
       </paper-toolbar>
 
       <div>
-        <file-drop flex on-file-drop="{{ addStation }}">
+        <file-drop flex on-file-drop="addStation">
           Drop <em>m3u</em> Playlists here.
         </file-drop>
-        <iron-selector selected="{{ selected }}" on-core-activate="{{ playStation }}" layout horizontal>
-          <template repeat="{{ station in stations }}">
-            <audio-source url="{{ station.url }}" name="{{ station.name }}">
-              <paper-ripple fit></paper-ripple>
+        <iron-selector selected="{{ selected }}" on-iron-activate="playStation" class="layout horizontal">
+          <template is="dom-repeat" items="{{ stations }}">
+            <audio-source url="{{ item.url }}" name="{{ item.name }}">
+              <paper-ripple class="fit"></paper-ripple>
             </audio-source>
           </template>
         </iron-selector>

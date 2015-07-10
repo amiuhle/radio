@@ -12,8 +12,8 @@
   <template>
     <div layout horizontal>
       <span>
-        <paper-icon-button icon="file-upload" on-click="{{ triggerUpload }}">
-          <input type="file" multiple id="upload" on-change="{{ onUpload }}" />
+        <paper-icon-button icon="file-upload" on-click="triggerUpload">
+          <input type="file" multiple id="upload" on-change="onUpload" />
         </paper-icon-button>
       </span>
       <div flex self-center>
